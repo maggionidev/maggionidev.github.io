@@ -118,18 +118,12 @@ Depois de abrir o CoreCtrl:
 
 A minha GPU é a RX6600, então eu vou fazer as seguintes alterações nela:
 
-**Clock mínimo da GPU → 2100 MHz**
+**Clock mínimo da GPU → 1900 MHz**
+**Clock máximo da GPU → 2500 MHz**
 
 Por padrão, a GPU "dorme" em clocks baixíssimos (tipo 500 MHz) quando percebe que o jogo não está exigindo 100% do tempo - o que acontece constantemente em jogos com hitches, carregamentos ou momentos menos intensos. O problema é que a transição de 500 MHz → 2750 MHz leva tempo, causando **stutters** perceptíveis.
 
-Fixar o mínimo em 2100 MHz garante que a GPU nunca cai pra clocks baixos demais, eliminando esses solavancos sem aumentar significativamente o consumo médio.
-
-**Desvio de voltagem (mV offset) → -25 mV**
-
-Cada chip tem variações de fábrica. A maioria das RX 6600 opera estável com uma redução de 25 mV na voltagem - o que significa **menos calor, menos ruído dos fans, e menor consumo**, mantendo o mesmo desempenho. É um ajuste conservador e seguro pra maioria dos chips.
-
-> Não vai além de -25 mV sem testar estabilidade. Se travar no jogo, volta pra 0 mV.
-> Se percebeu que algo ficou ruim, perdeu desempenho, ou afins, volta o mV pra 0;
+Fixar o mínimo em 1900 MHz garante que a GPU nunca cai pra clocks baixos demais, eliminando esses solavancos sem aumentar significativamente o consumo médio.
 
 3. Na aba **CPU**, verifica se o **governador de frequência** está em **Performance**
 4. **Ativa o perfil Gaming**
