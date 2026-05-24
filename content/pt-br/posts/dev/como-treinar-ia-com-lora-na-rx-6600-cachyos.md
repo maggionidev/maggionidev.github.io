@@ -255,75 +255,74 @@ Para 8 GB de VRAM com `fp16`, use modelos com até \~3B parâmetros:
 # train_lora.py
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments
 from peft import LoraConfig, get_peft_model, TaskType
-from trl import SFTTrainer
+from trl import SFTTrainer, SFTConfig
 from datasets import load_dataset
 import torch
 
 # ============================================================
 # CONFIGURAÇÃO
 # ============================================================
-MODEL_NAME   = "microsoft/phi-2"   # Modelo base
-ADAPTER_DIR  = "./lora-adapter"    # Onde salvar o adapter treinado
-DATASET_NAME = "timdettmers/openassistant-guanaco"  # Substitua pelo seu dataset
+MODEL_NAME   = "microsoft/phi-2"   # Modelo base
+ADAPTER_DIR  = "./lora-adapter"    # Onde salvar o adapter treinado
+DATASET_NAME = "timdettmers/openassistant-guanaco"  # Substitua pelo seu dataset
 # ============================================================
 
 # Carregar tokenizer e modelo
 print(f"Carregando modelo: {MODEL_NAME}")
 tokenizer = AutoTokenizer.from_pretrained(
-    MODEL_NAME,
-    trust_remote_code=True
+   MODEL_NAME,
+   trust_remote_code=True
 )
-tokenizer.pad_token = tokenizer.eos_token  # necessário para batching
+tokenizer.pad_token = tokenizer.eos_token  # necessário para batching
 
 model = AutoModelForCausalLM.from_pretrained(
-    MODEL_NAME,
-    torch_dtype=torch.float16,    # fp16 — cabe nos 8 GB da RX 6600
-    device_map="cuda",
-    trust_remote_code=True
+   MODEL_NAME,
+   torch_dtype=torch.float16,    # fp16 — cabe nos 8 GB da RX 6600
+   device_map="cuda",
+   trust_remote_code=True
 )
 
 # Configurar LoRA
 lora_config = LoraConfig(
-    task_type=TaskType.CAUSAL_LM,
-    r=16,               # rank: controla o número de parâmetros treináveis
-    lora_alpha=32,      # escala do LoRA (geralmente = 2*r)
-    lora_dropout=0.05,
-    bias="none",
-    target_modules=["q_proj", "v_proj"]  # camadas de atenção alvo
+   task_type=TaskType.CAUSAL_LM,
+   r=16,               # rank: controla o número de parâmetros treináveis
+   lora_alpha=32,      # escala do LoRA (geralmente = 2*r)
+   lora_dropout=0.05,
+   bias="none",
+   target_modules=["q_proj", "v_proj"]  # camadas de atenção alvo
 )
 
-model = get_peft_model(model, lora_config)
-model.print_trainable_parameters()
+
 # Exemplo de saída: trainable params: 2,359,296 || all params: 2,781,278,208 (0.08%)
 
 # Carregar dataset
 print("Carregando dataset...")
-dataset = load_dataset(DATASET_NAME, split="train[:1000]")  # ajuste o tamanho
+dataset = load_dataset(DATASET_NAME, split="train[:50]")  # ajuste o tamanho
 
 # Configurar treino
-training_args = TrainingArguments(
-    output_dir="./checkpoints",
-    num_train_epochs=3,
-    per_device_train_batch_size=2,    # reduza para 1 se VRAM estourar
-    gradient_accumulation_steps=8,   # simula batch efetivo de 16
-    learning_rate=2e-4,
-    fp16=True,                        # usa fp16 — essencial para a RX 6600
-    logging_steps=10,
-    save_steps=200,
-    save_total_limit=2,
-    warmup_ratio=0.05,
-    lr_scheduler_type="cosine",
-    report_to="none",                 # desativa wandb/tensorboard
+training_args = SFTConfig(
+   output_dir="./checkpoints",
+   num_train_epochs=1,
+   per_device_train_batch_size=2,
+   gradient_accumulation_steps=8,
+   learning_rate=2e-4,
+   fp16=True,
+   logging_steps=10,
+   save_steps=200,
+   save_total_limit=2,
+   warmup_steps=50,           # warmup_ratio foi depreciado também
+   lr_scheduler_type="cosine",
+   report_to="none",
+   max_length=512,        # vai aqui agora
+   dataset_text_field="text", # vai aqui agora
 )
 
 # Inicializar trainer
 trainer = SFTTrainer(
-    model=model,
-    train_dataset=dataset,
-    args=training_args,
-    dataset_text_field="text",
-    max_seq_length=512,
-    peft_config=lora_config,
+   model=model,
+   train_dataset=dataset,
+   args=training_args,
+   peft_config=lora_config,
 )
 
 # Iniciar treino
