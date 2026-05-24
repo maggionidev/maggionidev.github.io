@@ -86,7 +86,7 @@ Pressione `Enter` para aceitar o caminho padrão (`~/.ssh/id_ed25519`). Opcional
 ### 2. Adicionar a chave ao ssh-agent
 
 ```bash
-eval "$(ssh-agent -s)"
+eval "$(ssh-agent -s)" # ssh-agent -c | source
 ssh-add ~/.ssh/id_ed25519
 ```
 
