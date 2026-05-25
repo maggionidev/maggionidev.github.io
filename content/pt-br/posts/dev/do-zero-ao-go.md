@@ -13,8 +13,8 @@ categories:
   - dev
 keywords: []
 author: Gabriel Maggioni
-date: 2026-05-18T15:49:00
-lastmod: 2026-05-25T15:49:00
+date: 2026-05-25T15:53:00
+lastmod: 2026-05-25T15:53:00
 showToc: true
 TocOpen: false
 draft: true
