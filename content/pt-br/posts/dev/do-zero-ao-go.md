@@ -3,8 +3,14 @@ title: Do zero ao Go! Aprenda Golang em um post!
 slug: from-zero-to-golang
 description: Um guia completo, progressivo e profundo sobre Go - do Hello World ao runtime internamente, passando por concorrência, arquitetura, performance e projetos reais
 summary: Um guia completo, progressivo e profundo sobre Go - do Hello World ao runtime internamente, passando por concorrência, arquitetura, performance e projetos reais
-tags: []
-categories: []
+tags:
+  - go
+  - golang
+  - tutotorial
+  - guia
+  - dev
+categories:
+  - dev
 keywords: []
 author: Gabriel Maggioni
 date: 2026-05-18T15:49:00
