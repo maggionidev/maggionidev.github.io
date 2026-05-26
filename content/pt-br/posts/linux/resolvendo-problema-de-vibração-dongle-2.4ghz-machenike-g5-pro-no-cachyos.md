@@ -9,7 +9,7 @@ tags:
   - gaming
   - machenike g5 pro
 categories:
-  - dev
+  - linux
   - gaming
 keywords: []
 author: Gabriel Maggioni
