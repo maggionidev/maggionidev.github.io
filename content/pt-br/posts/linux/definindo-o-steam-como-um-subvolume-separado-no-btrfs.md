@@ -12,8 +12,11 @@ tags:
   - arch
 categories:
   - linux
+keywords:
   - btrfs
-keywords: []
+  - cachyos
+  - arch
+  - linux
 author: Gabriel Maggioni
 date: 2026-05-24T12:29:00
 lastmod: 2026-05-24T12:29:00
