@@ -14,8 +14,7 @@ keywords:
 
 ---
 
-     Posts mais recentes! 🚀
+     Bem vindo ao meu blog! 🚀
 
-> Visão Completa: [archives](/pt-br/archives)
-
+:= posts populares: [arch/cachyos](/pt-br/categories/arch) | [linux](/pt-br/categories/linux) | [dev](/pt-br/categories/dev)
 ---
