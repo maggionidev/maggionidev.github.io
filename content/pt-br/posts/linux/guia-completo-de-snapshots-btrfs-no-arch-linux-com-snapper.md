@@ -6,23 +6,11 @@ summary: Aprenda como funcionam snapshots Btrfs no Arch Linux e CachyOS usando S
 tags:
   - btrfs
   - snapper
-  - arch linux
+  - arch
   - cachyos
   - linux
   - snapshots
   - rollback
-  - filesystem
-  - subvolumes
-  - copy on write
-  - cow
-  - grub-btrfs
-  - pacman
-  - backup linux
-  - btrfs snapshots
-  - linux backup
-  - linux filesystem
-  - ssd linux
-  - snapper rollback
 categories:
   - linux
 keywords:
