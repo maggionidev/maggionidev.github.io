@@ -9,6 +9,7 @@ tags:
   - linux
 categories:
   - linux
+  - arch
   - gaming
 keywords: []
 author: Gabriel Maggioni
