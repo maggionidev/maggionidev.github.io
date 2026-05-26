@@ -11,6 +11,7 @@ tags:
   - cachyos
 categories:
   - linux
+  - arch
   - 1minute
 keywords: []
 author: Gabriel Maggioni
