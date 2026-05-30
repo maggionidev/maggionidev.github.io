@@ -38,7 +38,7 @@ Depois, instala os pacotes essenciais pra AMD:
 
 ```bash
 # Drivers e ferramentas da GPU
-sudo pacman -S mesa mesa-utils rocm-smi-lib
+sudo pacman -S mesa lib32-mesa libva-mesa-driver lib32-libva-mesa-driver mesa-utils rocm-smi-lib
 
 # Suporte Vulkan (essencial pra jogos modernos e Proton)
 sudo pacman -S vulkan-radeon lib32-vulkan-radeon mesa lib32-mesa
@@ -216,6 +216,7 @@ Com tudo configurado, vai nas **propriedades** do jogo na Steam → **Opções d
 
 ```plain
 gamemoderun mangohud %command%
+# gamemoderun RADV_PERFTEST=sam RADV_DEBUG=syncshaders mangohud %command%
 ```
 
 ### O Que Cada Coisa Faz
