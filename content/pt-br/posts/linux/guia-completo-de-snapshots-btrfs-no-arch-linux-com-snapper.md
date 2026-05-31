@@ -30,419 +30,247 @@ TocOpen: false
 draft: false
 ---
 
-# O que é Btrfs?
+## O que é Btrfs
 
-Btrfs é um sistema de arquivos moderno do Linux. Ele funciona como o "organizador" do SSD: decide como os arquivos são salvos, movidos e recuperados.
+Sistema de arquivos moderno com **Copy-on-Write (CoW)**: em vez de sobrescrever arquivos, cria uma nova versão antes de alterar a antiga. Isso permite snapshots rápidos e rollback do sistema.
 
-O diferencial dele é o **Copy-on-Write (CoW)**:
-
-> em vez de sobrescrever arquivos diretamente, ele cria uma nova versão antes de alterar a antiga.
-
-É isso que permite snapshots rápidos e rollback do sistema.
-
-***
+---
 
 ## Subvolumes
 
-O Btrfs divide o sistema em subvolumes, que são tipo "mini partições" dentro do mesmo disco.
+"Mini partições" dentro do mesmo disco. No Arch/CachyOS:
 
-Normalmente no Arch/CachyOS:
-
-```bash
+```
 @       → /
 @home   → /home
 ```
 
-Isso é importante porque:
-
-* snapshot de `/` NÃO inclui `/home`
-* sistema e arquivos pessoais ficam separados
-
-Ver subvolumes:
+Snapshot de `/` **não** inclui `/home`.
 
 ```bash
 sudo btrfs subvolume list /
-```
-
-Ver montagem:
-
-```bash
 findmnt -t btrfs
 ```
 
-***
+---
 
 ## Snapshots
 
-Snapshot é uma "foto" do sistema naquele momento.
-
-Eles são:
-
-* quase instantâneos
-* leves no começo
-* ótimos pra desfazer updates quebrados
-
-Criar snapshot da raiz:
-
 ```bash
+# Raiz
 sudo btrfs subvolume snapshot -r / /.snapshots/meu-snap-$(date +%Y-%m-%d_%H-%M)
-```
 
-Do home:
-
-```bash
+# Home
 sudo btrfs subvolume snapshot -r /home /home/.snapshots/home-snap-$(date +%Y-%m-%d_%H-%M)
 ```
 
-***
+**Snapshot ≠ Backup.** Se o SSD morrer, os snapshots morrem junto.
 
-## Snapshot NÃO é backup
-
-Snapshot fica no mesmo SSD.
-
-| Problema | Snapshot resolve? |
-| --- | --- |
-| Update quebrou o sistema | ✓ |
-| Arquivo apagado | ✓ |
-| SSD morreu | ✗ |
-
-Se o disco morrer, os snapshots morrem junto.
-
-***
+---
 
 ## Snapper
 
-O Snapper automatiza snapshots.
-
-Instalar:
-
 ```bash
+# Instalar
 sudo pacman -S snapper snap-pac grub-btrfs
-```
 
-Configurar:
-
-```bash
+# Configurar
 sudo snapper -c root create-config /
 sudo snapper -c home create-config /home
-```
 
-Ativar:
-
-```bash
+# Ativar
 sudo systemctl enable --now snapper-timeline.timer
 sudo systemctl enable --now snapper-cleanup.timer
 ```
 
-Depois disso:
-
-* snapshots automáticos são criados
-* antes de cada `pacman -Syu` ele salva um PRE
-* depois cria um POST
-
-***
-
-## Snapshot manual
+Cria snapshot PRE + POST automaticamente a cada `pacman -Syu`.
 
 ```bash
-# Criar snapshot manual antes de uma atualização arriscada
+# Snapshot manual
 sudo snapper -c root create --description "antes-de-atualizar"
 ```
 
-***
+---
 
 ## Rollback
 
-Listar snapshots:
-
 ```bash
 sudo snapper list
-```
-
-Voltar para um snapshot antigo:
-
-```bash
 sudo snapper rollback N
 sudo reboot
-```
 
-Isso literalmente volta o sistema para o estado anterior.
-
-***
-
-## Recuperar arquivo apagado
-
-Copiar arquivo de dentro do snapshot:
-
-```bash
+# Recuperar arquivo apagado
 sudo cp /.snapshots/2/snapshot/caminho/arquivo .
-```
 
-Ver diferenças:
-
-```bash
+# Ver diferenças
 sudo snapper diff 2..0
 ```
 
-***
+---
 
 ## Ver uso real do disco
 
-`df -h` não mostra corretamente no Btrfs.
-
-Use:
+`df -h` não é confiável no Btrfs.
 
 ```bash
 sudo btrfs filesystem usage /
-```
 
-Ver espaço dos snapshots:
-
-```bash
+# Espaço por snapshot (coluna "excl" = quanto seria liberado ao deletar)
 sudo btrfs qgroup show -reF /
-```
 
-A coluna `excl` mostra quanto espaço seria liberado ao deletar cada snapshot.
-
-***
-
-## Diagnóstico: descobrindo o que está pesando
-
-Antes de sair apagando, vale entender o tamanho real do problema:
-
-```bash
-# Uso geral do Btrfs (mais preciso que df -h)
-sudo btrfs filesystem usage /
-
-# Peso total dos snapshots do sistema
+# Peso dos snapshots
 sudo du -sh /.snapshots
-
-# Peso dos snapshots do home (se existir)
 sudo du -sh /home/.snapshots 2>/dev/null
 ```
 
-O sinal de alerta é quando você vê algo assim na saída do `btrfs filesystem usage`:
-
-```plain
+Sinal de alerta na saída do `filesystem usage`:
+```
 Data,single: Size:437.01GiB, Used:433.74GiB (99.25%)
 ```
 
-Isso significa que o Btrfs alocou quase tudo e está realmente cheio — não é ilusão do `df`.
+---
 
-***
+## Apagar snapshots
 
-## Apagando snapshots antigos
-
-### Deletar snapshot corretamente
-
-NÃO use `rm -rf`.
-
-Correto:
-
-```bash
-sudo btrfs subvolume delete /.snapshots/meu-snap
-```
-
-### Apagando via Snapper (forma recomendada)
-
-Listar todos os snapshots do sistema:
+> **Nunca use `rm -rf`.** Use `btrfs subvolume delete` ou Snapper.
 
 ```bash
 sudo snapper list
-```
 
-Apagar um snapshot específico:
-
-```bash
+# Apagar um
 sudo snapper delete 20
-```
 
-Apagar um intervalo de uma vez:
-
-```bash
+# Apagar intervalo (verifique a lista antes — número inexistente falha o comando)
 sudo snapper delete 14-94
-```
 
-> **Atenção:** se algum número não existir no intervalo, o comando vai falhar. Verifique a lista antes e ajuste o intervalo para conter apenas números existentes.
-
-Fazer o mesmo para o `/home`:
-
-```bash
+# Home
 sudo snapper -c home list
 sudo snapper -c home delete 1-10
 ```
 
-### Forçar sincronização e rebalancear o disco
+---
 
-Após apagar, o espaço pode não aparecer imediatamente porque o Btrfs trabalha com "chunks" de alocação. Rode nessa ordem:
+## Subvolumes de backup do rollback
+
+Após um `snapper rollback`, o CachyOS cria subvolumes no nível raiz do Btrfs que **não aparecem** no `snapper list`:
+
+```
+@_backup_2026-05-31T16:39:04.582Z
+@home_backup_2026-05-31T16:38:57.703Z
+```
+
+```bash
+# Montar o nível raiz (confirme o dispositivo com findmnt -t btrfs)
+sudo mkdir -p /mnt/btrfs-top
+sudo mount -o subvolid=5 /dev/nvme0n1p2 /mnt/btrfs-top
+
+ls -lah /mnt/btrfs-top
+
+# Apagar os backups
+sudo btrfs subvolume delete "/mnt/btrfs-top/@_backup_..."
+sudo btrfs subvolume delete "/mnt/btrfs-top/@home_backup_..."
+
+sudo btrfs subvolume sync /mnt/btrfs-top
+```
+
+---
+
+## Forçar liberação do espaço
+
+Após apagar, o espaço pode não aparecer imediatamente — o Btrfs trabalha com chunks de alocação.
 
 ```bash
 sudo btrfs filesystem sync /
 sudo btrfs balance start -dusage=50 /
-```
 
-O `balance` pode demorar vários minutos dependendo do tamanho do SSD. Depois confira:
-
-```bash
 df -h
 sudo btrfs filesystem usage /
 ```
 
-***
+---
 
-## Por que os snapshots enchem o disco (o problema real)
+## Por que os snapshots enchem o disco
 
-O snap-pac cria um snapshot PRE e um POST para **cada operação do pacman** — incluindo instalações simples de pacotes pequenos como `htop` ou `wl-clipboard`. Em pouco tempo você acumula dezenas de snapshots sem perceber.
+O `snap-pac` cria PRE + POST para **cada** operação do pacman, mesmo pacotes pequenos. Snapshots do `/home` também preservam arquivos grandes já deletados — se havia snapshot quando um jogo de 50GB estava instalado, ele continua ocupando espaço mesmo após desinstalar.
 
-O detalhe mais importante: **os snapshots do `/home` preservam arquivos grandes mesmo depois de deletados.** Se você instalou um jogo enorme pelo Steam, desinstalou, mas havia um snapshot naquele momento, os arquivos do jogo continuam existindo dentro do snapshot. O espaço aparentemente some sem explicação óbvia.
+---
 
-***
-
-## Limitar quantidade de snapshots
-
-O Snapper permite limitar automaticamente quantos snapshots ficam salvos. Isso evita o SSD enchendo aos poucos sem perceber.
-
-As configurações ficam em:
+## Limitar snapshots
 
 ```bash
 sudo nano /etc/snapper/configs/root
+# (repita para /home se necessário)
 ```
 
-Se você também usa snapshots do `/home`:
+Conservador (recomendado para SSDs menores):
 
-```bash
-sudo nano /etc/snapper/configs/home
 ```
-
-### Limites dos snapshots automáticos
-
-Procure estas linhas:
-
-```ini
-TIMELINE_LIMIT_HOURLY="5"
-TIMELINE_LIMIT_DAILY="7"
-TIMELINE_LIMIT_WEEKLY="4"
-TIMELINE_LIMIT_MONTHLY="3"
-TIMELINE_LIMIT_YEARLY="0"
-```
-
-Exemplo conservador (recomendado para SSDs menores):
-
-```ini
 TIMELINE_LIMIT_HOURLY="3"
 TIMELINE_LIMIT_DAILY="3"
 TIMELINE_LIMIT_WEEKLY="1"
 TIMELINE_LIMIT_MONTHLY="0"
 TIMELINE_LIMIT_YEARLY="0"
-```
 
-Quando o limite é atingido, os snapshots mais antigos são apagados automaticamente.
-
-### Limitar snapshots criados pelo pacman
-
-Os snapshots PRE e POST feitos antes/depois de updates usam estas opções:
-
-```ini
 NUMBER_LIMIT="10"
 NUMBER_LIMIT_IMPORTANT="5"
 ```
 
-### Aplicar limpeza manualmente
-
-Depois de alterar as configs, você pode forçar a limpeza:
-
 ```bash
+# Forçar limpeza manualmente
 sudo snapper cleanup number
 sudo snapper cleanup timeline
 ```
 
-***
+---
 
 ## Desligar snapshots automáticos (opcional)
 
-Se você realmente não usa rollback e quer evitar o acúmulo completamente:
-
 ```bash
-# Desligar criação automática por tempo
 sudo systemctl disable --now snapper-timeline.timer
-
-# Desligar limpeza automática
 sudo systemctl disable --now snapper-cleanup.timer
 ```
 
-Ou editar a config e apenas parar a criação automática mantendo o snapper ativo para uso manual:
-
-```ini
+Ou só parar a criação mantendo o Snapper ativo:
+```
 TIMELINE_CREATE="no"
 ```
-
-> Só recomendo isso se você tem certeza que não precisa de rollback. Snapshot salva a pele quando um update quebra o boot.
-
-Para verificar o status dos timers:
 
 ```bash
 sudo systemctl list-timers | grep snapper
 ```
 
-***
+---
 
-## Liberar espaço adicional além dos snapshots
-
-### Cache do pacman
-
-Esse aqui sozinho pode estar ocupando 10–20GB:
+## Liberar espaço adicional
 
 ```bash
-# Manter só as 2 últimas versões de cada pacote
+# Cache do pacman
+sudo du -sh /var/cache/pacman/pkg
 sudo paccache -rk2
-
-# Remover apenas pacotes não instalados
-sudo pacman -Sc
-
-# Limpar tudo (cuidado: vai baixar novamente em updates futuros)
 sudo pacman -Scc
-```
 
-### Logs do sistema
-
-```bash
+# Logs
 sudo journalctl --vacuum-time=7d
-```
 
-### Encontrar o que realmente está ocupando espaço
-
-```bash
-# Ver os 40 maiores arquivos/pastas
+# Encontrar o que está pesando
 sudo du -xh / | sort -h | tail -40
-
-# Ou instalar o ncdu para uma interface navegável
-sudo pacman -S ncdu
-sudo ncdu /
+sudo pacman -S ncdu && sudo ncdu /
 ```
 
-O `ncdu` é muito melhor para navegar e encontrar pastas gigantes escondidas.
-
-***
+---
 
 ## Manutenção
 
-Verificar integridade:
-
 ```bash
 sudo btrfs scrub start -Bd /
-```
-
-Ver erros físicos do SSD:
-
-```bash
 sudo btrfs device stats /
 ```
 
-***
+---
 
-## Resumo rápido
+## Resumo
 
-```text
+```
 Btrfs
 ├── CoW → copia antes de alterar
 ├── Subvolumes → @ e @home separados
@@ -451,36 +279,18 @@ Btrfs
 └── grub-btrfs → snapshots no boot
 ```
 
-Fluxo normal:
-
-```text
-pacman -Syu
-↓
-snapshot PRE automático
-↓
-update
-↓
-snapshot POST automático
-↓
-deu problema?
-↓
-snapper rollback N
-↓
-reboot
+**Fluxo normal:**
+```
+pacman -Syu → PRE → update → POST → deu problema? → snapper rollback N → reboot
 ```
 
-Fluxo de limpeza quando o SSD enche:
-
-```text
-sudo snapper list
-↓
-sudo snapper delete <intervalo>
-↓
-sudo btrfs filesystem sync /
-↓
-sudo btrfs balance start -dusage=50 /
-↓
-df -h (confirmar espaço liberado)
-↓
-ajustar limites em /etc/snapper/configs/root
+**Fluxo de limpeza:**
+```
+snapper list
+↓ snapper delete <intervalo>
+↓ verificar subvolumes de backup no btrfs-top
+↓ btrfs subvolume delete "@_backup_..."
+↓ btrfs filesystem sync / && btrfs balance start -dusage=50 /
+↓ df -h
+↓ ajustar limites em /etc/snapper/configs/root
 ```
