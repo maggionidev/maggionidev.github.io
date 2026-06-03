@@ -4,13 +4,13 @@ slug: useful-offline-tools
 description: ''
 summary: ''
 tags:
-  - '#tools'
-  - '#ia'
-  - '#offline'
-  - '#dev'
+  - tools
+  - ia
+  - offline
+  - dev
 categories:
-  - '#dev'
-  - '#tools'
+  - dev
+  - tools
 keywords: []
 author: Gabriel Maggioni
 date: 2026-05-31T11:18:00
