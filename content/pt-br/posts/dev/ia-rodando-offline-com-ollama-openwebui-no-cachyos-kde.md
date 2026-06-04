@@ -26,7 +26,7 @@ draft: false
 
 > Quer rodar modelos de linguagem no seu próprio computador, sem depender de nuvem e sem pagar por API? Neste guia você vai instalar o LM Studio, baixar um modelo e deixar tudo acessível via uma interface bonita usando o Open WebUI com Docker.
 
----
+***
 
 ## O que você vai precisar
 
@@ -35,7 +35,7 @@ draft: false
 - Docker instalado
 - Vontade de brincar com IA local 🤖
 
----
+***
 
 ## Parte 1 — Instalando o LM Studio
 
@@ -76,7 +76,7 @@ chmod +x LM_Studio-*.AppImage
 
 > 💡 **Dica:** Para integrar melhor ao sistema, você pode usar o `appimaged` ou criar um `.desktop` manualmente em `~/.local/share/applications/`.
 
----
+***
 
 ## Parte 2 — Baixando um modelo
 
@@ -84,19 +84,23 @@ Com o LM Studio aberto, você vai ver uma interface bem amigável. Veja como bai
 
 1. **Clique na aba de busca** (ícone de lupa ou "Discover") na barra lateral esquerda.
 2. **Pesquise um modelo.** Boas pedidas para começar:
-   - `mistral` — leve e eficiente
-   - `llama3` — da Meta, muito capaz
-   - `phi3` — surpreendentemente bom para o tamanho
-   - `gemma` — da Google, ótimo custo-benefício
+
+- `mistral` — leve e eficiente
+- `llama3` — da Meta, muito capaz
+- `phi3` — surpreendentemente bom para o tamanho
+- `gemma` — da Google, ótimo custo-benefício
+
 3. **Escolha a versão correta para sua máquina:**
-   - `Q4_K_M` — bom equilíbrio entre velocidade e qualidade
-   - `Q8_0` — mais qualidade, precisa de mais RAM
-   - Modelos com `7B` no nome têm 7 bilhões de parâmetros (mais leve); `13B` é mais pesado mas melhor
+
+- `Q4_K_M` — bom equilíbrio entre velocidade e qualidade
+- `Q8_0` — mais qualidade, precisa de mais RAM
+- Modelos com `7B` no nome têm 7 bilhões de parâmetros (mais leve); `13B` é mais pesado mas melhor
+
 4. **Clique em Download** e aguarde. Os modelos costumam ter entre 4 GB e 10 GB.
 
-> 💡 **Quanto de RAM eu preciso?** Uma regra prática: um modelo `7B Q4` precisa de cerca de 5–6 GB de RAM (ou VRAM se usar GPU). Um `13B Q4` precisa de ~9 GB.
+> 💡 **Quanto de RAM eu preciso?** Uma regra prática: um modelo `7B Q4` precisa de cerca de 5–6 GB de RAM (ou VRAM se usar GPU). Um `13B Q4` precisa de \~9 GB.
 
----
+***
 
 ## Parte 3 — Rodando o servidor local
 
@@ -116,7 +120,7 @@ curl http://localhost:1234/v1/models
 
 Se aparecer uma lista de modelos em JSON, está tudo certo! ✅
 
----
+***
 
 ## Parte 4 — Instalando o Docker
 
@@ -130,7 +134,7 @@ sudo usermod -aG docker $USER
 
 > ⚠️ **Importante:** Depois de rodar o `usermod`, **faça logout e login novamente** (ou reinicie) para que seu usuário reconheça o grupo `docker`. Caso contrário, você precisará usar `sudo` em todos os comandos Docker.
 
----
+***
 
 ## Parte 5 — Rodando o Open WebUI
 
@@ -155,7 +159,7 @@ docker run -d -p 3000:8080 \
 O que cada parte faz:
 
 | Opção | O que faz |
-|---|---|
+| --- | --- |
 | `-d` | Roda em segundo plano |
 | `-p 3000:8080` | Expõe na porta 3000 do seu PC |
 | `--add-host=host.docker.internal:host-gateway` | Permite o container acessar o LM Studio no host |
@@ -164,11 +168,11 @@ O que cada parte faz:
 
 Aguarde o download da imagem (pode demorar alguns minutos na primeira vez) e depois acesse:
 
-```
+```plain
 http://localhost:3000
 ```
 
----
+***
 
 ## Parte 6 — Conectando o Open WebUI ao LM Studio
 
@@ -177,7 +181,7 @@ http://localhost:3000
 3. Vá em **Configurações → Connections** (ou Conexões).
 4. Em **OpenAI API**, coloque a URL:
 
-```
+```plain
 http://host.docker.internal:1234/v1
 ```
 
@@ -186,21 +190,24 @@ http://host.docker.internal:1234/v1
 
 Se aparecer um ✅ verde, está conectado! Agora você pode voltar para a tela principal e já vai ver o modelo disponível para conversar.
 
----
+***
 
 ## Dicas Finais
 
 **Para parar o Open WebUI:**
+
 ```bash
 docker stop open-webui
 ```
 
 **Para iniciar novamente:**
+
 ```bash
 docker start open-webui
 ```
 
 **Para ver os logs se algo der errado:**
+
 ```bash
 docker logs open-webui
 ```
@@ -213,18 +220,17 @@ sudo pacman -S nvidia-container-toolkit
 ```
 
 ```bash
-docker run -d -p 3000:8080 \
-  --gpus all \
-  --add-host=host.docker.internal:host-gateway \
-  -v open-webui:/app/backend/data \
+docker run -d \
   --name open-webui \
+  --network host \
   --restart always \
-  ghcr.io/open-webui/open-webui:cuda
+  -v open-webui:/app/backend/data \
+  ghcr.io/open-webui/open-webui:main
 ```
 
 > Note que no caso com GPU, a imagem muda para `:cuda`.
 
----
+***
 
 ## Conclusão
 
