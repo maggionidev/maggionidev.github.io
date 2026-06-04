@@ -158,40 +158,54 @@ nano ~/.config/MangoHud/MangoHud.conf
 Apaga o que tiver e cola isso:
 
 ```ini
-# === Métricas de GPU ===
-fps
-fps_metrics=avg
-gpu_stats
-gpu_usage
-vram
-gpu_core_clock
-gpu_power
-gpu_temp
+# ╔══════════════════════════════════════╗
+# ║         MangoHud Configuration       ║
+# ║  Salve em: ~/.config/MangoHud/       ║
+# ╚══════════════════════════════════════╝
 
-# === Métricas de CPU ===
-cpu_stats
-cpu_temp
-cpu_mhz
-ram
-
-# === Posição e Visual ===
-position=top-left
-offset_x=15
-offset_y=15
-font_size=20
-background_alpha=0.35
-alpha=0.95
-round_corners=10
-hud_compact
-table_columns=3
 legacy_layout=false
 
-# === Desabilitado (menos ruído) ===
-frametime=0
-media_player=0
-time=0
-battery=0
-device_battery=0
+# ── Visual & Posição ──────────────────
+position=top-left
+width=220
+font_size=14
+background_alpha=0.4
+alpha=0.5
+round_corners=8
+table_columns=2
+
+# Cores dos textos (hex RGB)
+gpu_color=2e9762
+cpu_color=2e97cb
+ram_color=c2a13b
+fps_color=e06464
+text_color=ffffff
+
+# ── FPS ───────────────────────────────
+fps
+# fps_metrics: avg = FPS médio | 0.01 = 1% Low
+fps_metrics=avg,0.01
+
+# ── GPU ───────────────────────────────
+gpu_stats        # Uso em %
+gpu_temp         # Temperatura
+gpu_core_clock   # Clock do núcleo
+vram             # VRAM utilizada
+gpu_power        # Consumo em Watts
+
+# ── CPU ───────────────────────────────
+cpu_stats        # Uso em %
+cpu_temp         # Temperatura
+cpu_mhz          # Clock (MHz)
+
+# ── RAM ───────────────────────────────
+ram
+
+# ── Atalhos ───────────────────────────
+toggle_hud=Shift_R+F12
+toggle_logging=Shift_L+F2
+
+
 ```
 
 ### Testando
