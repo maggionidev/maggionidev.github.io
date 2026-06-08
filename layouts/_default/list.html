@@ -41,9 +41,15 @@
 {{- $pages := union .RegularPages .Sections }}
 
 {{- if .IsHome }}
-{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
-{{- $pages = where $pages "Params.hiddenInHomeList" "!=" true }}
-{{- $pages = where $pages "Params.tags" "not in" (slice "hide") }}
+{{- $allPages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = slice }}
+
+{{- range $allPages }}
+  {{- if not (in (.Params.tags | default (slice)) "hide") }}
+    {{- $pages = $pages | append . }}
+  {{- end }}
+{{- end }}
+
 {{- end }}
 
 {{- $paginator := .Paginate $pages }}
