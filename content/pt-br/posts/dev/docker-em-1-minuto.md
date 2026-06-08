@@ -8,6 +8,7 @@ tags:
   - lazydocker
   - linux
   - cachyos
+  - hide
 categories:
   - dev
   - 1minute
