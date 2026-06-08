@@ -57,12 +57,24 @@
             </div>
         {{- end }}
 
-        {{- $pages := union .RegularPages .Sections }}
+{{- $pages := union .RegularPages .Sections }}
 
-        {{- if .IsHome }}
-            {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
-            {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+{{- if .IsHome }}
+    {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+    {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+
+    {{- $visiblePages := slice }}
+
+    {{- range $pages }}
+        {{- $tags := .Params.tags | default (slice) }}
+
+        {{- if not (in $tags "hide") }}
+            {{- $visiblePages = $visiblePages | append . }}
         {{- end }}
+    {{- end }}
+
+    {{- $pages = $visiblePages }}
+{{- end }}
 
         {{- $paginator := .Paginate $pages }}
 
