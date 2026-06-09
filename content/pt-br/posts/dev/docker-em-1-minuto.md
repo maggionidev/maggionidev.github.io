@@ -3,6 +3,7 @@ title: Docker em 1 minuto!
 slug: 1-minute-docker
 description: 'Comandos básicos : Docker (de forma resumida)'
 summary: 'Comandos básicos : Docker (de forma resumida)'
+hiddenInHomeList: true
 tags:
   - docker
   - lazydocker
