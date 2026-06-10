@@ -11,6 +11,7 @@ date: 2026-05-06T22:59:00
 lastmod: ''
 showToc: true
 TocOpen: false
+hiddenInHomeList: true
 draft: true
 ---
 
