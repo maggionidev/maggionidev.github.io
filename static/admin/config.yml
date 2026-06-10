@@ -16,21 +16,21 @@ collections:
     create: true
     slug: "{{slug}}"
     fields: &default_fields
-  - { label: "Título", name: "title", widget: "string" }
-  - { label: "Slug", name: "slug", widget: "string", required: false }
-  - { label: "Descrição (SEO)", name: "description", widget: "string", required: false }
-  - { label: "Resumo", name: "summary", widget: "string", required: false }
-  - { label: "Tags", name: "tags", widget: "list", required: false }
-  - { label: "Categorias", name: "categories", widget: "list", required: false }
-  - { label: "Keywords", name: "keywords", widget: "list", required: false }
-  - { label: "Autor", name: "author", widget: "string", default: "Gabriel Maggioni" }
-  - { label: "Data", name: "date", widget: "datetime" }
-  - { label: "Atualizado em", name: "lastmod", widget: "datetime", required: false }
-  - { label: "Mostrar TOC", name: "showToc", widget: "boolean", default: true }
-  - { label: "TOC aberto", name: "TocOpen", widget: "boolean", default: false }
-  - { label: "Ocultar da lista inicial", name: "hiddenInHomeList", widget: "boolean", default: false }
-  - { label: "Rascunho", name: "draft", widget: "boolean", default: true }
-  - { label: "Conteúdo", name: "body", widget: "markdown" }
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string", required: false }
+      - { label: "Descrição (SEO)", name: "description", widget: "string", required: false }
+      - { label: "Resumo", name: "summary", widget: "string", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Categorias", name: "categories", widget: "list", required: false }
+      - { label: "Keywords", name: "keywords", widget: "list", required: false }
+      - { label: "Autor", name: "author", widget: "string", default: "Gabriel Maggioni" }
+      - { label: "Data", name: "date", widget: "datetime" }
+      - { label: "Atualizado em", name: "lastmod", widget: "datetime", required: false }
+      - { label: "Mostrar TOC", name: "showToc", widget: "boolean", default: true }
+      - { label: "TOC aberto", name: "TocOpen", widget: "boolean", default: false }
+      - { label: "Ocultar da lista inicial", name: "hiddenInHomeList", widget: "boolean", default: false }
+      - { label: "Rascunho", name: "draft", widget: "boolean", default: true }
+      - { label: "Conteúdo", name: "body", widget: "markdown" }
 
   - name: posts_pt_linux
     label: "🇧🇷 Posts Linux (PT-BR)"
@@ -59,11 +59,3 @@ collections:
     create: true
     slug: "{{slug}}"
     fields: *default_fields
-  
-  - name: posts_pt_blender
-    label: "🇧🇷 Posts Blender (PT-BR)"
-    folder: content/pt-br/posts/blender
-    create: true
-    slug: "{{slug}}"
-    fields: *default_fields
-
