@@ -15,7 +15,3 @@ keywords:
 ---
 
      Bem vindo ao meu blog! 🚀
-
-posts populares := [arch/cachyos](/pt-br/categories/arch) | [linux](/pt-br/categories/linux) | [dev](/pt-br/categories/dev)
-
----
