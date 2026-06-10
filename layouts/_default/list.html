@@ -36,6 +36,24 @@
   {{- partial "anchored_headings.html" .Content -}}
   {{- else }}{{ .Content }}{{ end }}
 </div>
+
+<div style="margin-bottom: 26px">
+  {{- with site.Taxonomies.categories }}
+  <ul class="terms-tags">
+    {{- range .ByCount }}
+    <li>
+      <a href="{{ .Page.Permalink }}">
+        {{ .Page.LinkTitle }}
+        <sup
+          ><strong><sup>{{ .Count }}</sup></strong></sup
+        >
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+  {{- end }}
+</div>
+
 {{- end }}
 
 {{- $pages := union .RegularPages .Sections }}
@@ -62,23 +80,6 @@
 {{- else if $term }}
 {{- $class = "post-entry tag-entry" }}
 {{- end }}
-
-<div style="margin-bottom: 26px">
-  {{- with site.Taxonomies.categories }}
-  <ul class="terms-tags">
-    {{- range .ByCount }}
-    <li>
-      <a href="{{ .Page.Permalink }}">
-        {{ .Page.LinkTitle }}
-        <sup
-          ><strong><sup>{{ .Count }}</sup></strong></sup
-        >
-      </a>
-    </li>
-    {{- end }}
-  </ul>
-  {{- end }}
-</div>
 
 <article class="{{ $class }}">
   {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
