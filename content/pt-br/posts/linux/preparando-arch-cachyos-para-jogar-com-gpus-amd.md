@@ -1,20 +1,21 @@
 ---
-title: Preparando Arch/CachyOS para JOGAR com GPUs AMD
+title: Guia Completo GAMING - AMD no CachyOS
 slug: preparing-cachyos-for-gaming
-description: Aprenda a como configurar rapidamente o seu CachyOS para jogar tudo!
-summary: Aprenda a como configurar rapidamente o seu CachyOS para jogar tudo!
+description: Aprenda a otimizar sua GPU AMD no Arch Linux e CachyOS usando CoreCtrl, MangoHud, GameMode e ajustes no amdgpu. Mais FPS, menos stutter e melhor desempenho nos jogos.
+summary: Aprenda a otimizar sua GPU AMD no Arch Linux e CachyOS usando CoreCtrl, MangoHud, GameMode e ajustes no amdgpu. Mais FPS, menos stutter e melhor desempenho nos jogos.
 tags:
   - gaming
   - cachyos
-  - linux
+  - arch
+  - pin
 categories:
   - linux
-  - arch
+  - cachyos
   - gaming
 keywords: []
 author: Gabriel Maggioni
 date: 2026-05-17T10:00:00
-lastmod: ''
+lastmod: 2026-06-11T10:31:00
 showToc: true
 TocOpen: false
 draft: false
@@ -204,8 +205,6 @@ ram
 # ── Atalhos ───────────────────────────
 toggle_hud=Shift_R+F12
 toggle_logging=Shift_L+F2
-
-
 ```
 
 ### Testando
