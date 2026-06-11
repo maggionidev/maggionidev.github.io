@@ -1,10 +1,11 @@
 ---
 title: teste
 slug: teste
-description: tete
+description: teste
 summary: ''
 tags:
   - React
+  - Python
 categories:
   - Ferramentas
 keywords: []
