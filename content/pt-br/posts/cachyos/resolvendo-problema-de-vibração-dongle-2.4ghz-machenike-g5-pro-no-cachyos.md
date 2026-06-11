@@ -28,25 +28,25 @@ Via cabo funcionava, mas no dongle 2.4GHz ele se recusava a vibrar.
 
 Comecei diagnosticando assim:
 
-\`\`\`plain
+```plain
 
 dmesg -w
 
-\`\`\`
+```
 
 Depois conectei o controle e percebi que ele entrava em:
 
-\`\`\`plain
+```plain
 
 2345:e02e
 
 hid-generic
 
-\`\`\`
+```
 
 em vez de:
 
-\`\`\`plain
+```plain
 
 2345:e00b
 
@@ -54,25 +54,25 @@ xpad
 
 Xbox 360 Controller for Windows
 
-\`\`\`
+```
 
 Também testei o force feedback:
 
-\`\`\`plain
+```plain
 
 sudo pacman -S linuxconsole
 
 fftest /dev/input/eventXX
 
-\`\`\`
+```
 
 e recebia:
 
-\`\`\`plain
+```plain
 
 Function not implemented
 
-\`\`\`
+```
 
 ou seja: o Linux estava carregando \`hid-generic\` em vez do \`xpad\`, então não existia suporte real a rumble/vibração.
 
@@ -81,16 +81,14 @@ Encontrei a solução no [reddit](https://www.reddit.com/r/linux_gaming/comments
 Primeiro forcei o modo Xbox no controle:
 
 - conectei via cabo USB
-
 - liguei segurando \`Home + A\`
 
 Depois adicionei quirks USB temporários:
 
 ```plain
-
 echo -n "2345:e00b:ik,2345:e02e:ik,2345:e02f:ik" | sudo tee /sys/module/usbcore/parameters/quirks
 
-\`\`\`
+```
 
 Criei uma regra udev:
 
@@ -100,11 +98,11 @@ Arquivo:
 
 Conteúdo:
 
-\`\`\`plain
+```plain
 
 ACTION=="add", ATTRS{idVendor}=="2345", ATTRS{idProduct}=="e02e", RUN+="/sbin/modprobe xpad", RUN+="/bin/sh -c 'echo 2345 e02e > /sys/bus/usb/drivers/xpad/new_id'"
 
-\`\`\`
+```
 
 Depois adicionei no GRUB:
 
@@ -114,29 +112,29 @@ Arquivo:
 
 Na linha \`GRUB_CMDLINE_LINUX_DEFAULT\`:
 
-\`\`\`plain
+```plain
 
 usbcore.quirks=2345:e00b:ik,2345:e02e:ik,2345:e02f:ik
 
-\`\`\`
+```
 
 Regenerei o grub:
 
-\`\`\`plain
+```plain
 
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-\`\`\`
+```
 
 Recarreguei o udev:
 
-\`\`\`plain
+```plain
 
 sudo udevadm control --reload-rules
 
 sudo udevadm trigger
 
-\`\`\`
+```
 
 Depois disso:
 
@@ -152,10 +150,11 @@ Depois disso:
 
 Pra testar vibração:
 
-\`\`\`plain
+```plain
 
 fftest /dev/input/by-id/usb-MACHENIKE_Xbox_360_Controller_for_Windows_\*-event-joystick
 
-\`\`\`
+```
 
 Talvez ajude alguém sofrendo com esse controle no Linux 😭
+```
