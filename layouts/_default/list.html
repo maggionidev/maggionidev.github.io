@@ -67,6 +67,19 @@
   {{- end }}
 {{- end }}
 
+{{- /* ===== INÍCIO DA MODIFICAÇÃO: posts com tag "pin" no topo ===== */}}
+{{- $pinned := slice }}
+{{- $regular := slice }}
+{{- range $pages }}
+  {{- if (in .Params.tags "pin") }}
+    {{- $pinned = $pinned | append . }}
+  {{- else }}
+    {{- $regular = $regular | append . }}
+  {{- end }}
+{{- end }}
+{{- $pages = $pinned | append $regular }}
+{{- /* ===== FIM DA MODIFICAÇÃO ===== */}}
+
 {{- $paginator := .Paginate $pages }}
 
 {{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
@@ -90,7 +103,8 @@
   {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
   <header class="entry-header">
     <h2 class="entry-hint-parent">
-      {{- .Title }}
+    {{- if (in .Params.tags "pin") }} 📌  {{- end }} {{- .Title }}
+
       {{- if .Draft }}
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
