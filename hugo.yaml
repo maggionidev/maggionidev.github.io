@@ -40,9 +40,9 @@ languages:
         subtitle: |
           Olá, Bem vindo ao meu blog 👋 
 
-          Aqui você encontra conteúdos sobre Programação
+          Aqui você encontra conteúdos sobre Programação, Linux, Blender...
 
-          Mas também sobre Unity, Blender, e jogos!
+          e um monte outras coisas!
 
         imageUrl: /apple-touch-icon.webp
         imageWidth: 120
@@ -60,7 +60,7 @@ languages:
       editPost:
         URL: >-
           https://github.com/maggionidev/maggionidev.github.io/tree/main/content/pt-br
-        Text: '✏️ Encontrou um erro? Sugira alterações!'
+        Text: 'Encontrou um erro? Sugira alterações!'
         appendFilePath: true
 
       homeInfoParams:
@@ -102,7 +102,7 @@ languages:
       editPost:
         URL: >-
           https://github.com/maggionidev/maggionidev.github.io/tree/main/content/en
-        Text: '✏️ Found an issue? Suggest changes!'
+        Text: 'Found an issue? Suggest changes!'
         appendFilePath: true
 
       homeInfoParams:
