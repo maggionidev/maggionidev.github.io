@@ -34,15 +34,15 @@ Meu PC: Ryzen 7 5600x, RX 6600 8GB
 
 Antes de qualquer coisa, garante que o sistema está completamente atualizado:
 
-\`\`\`bash
+```bash
 
 sudo pacman -Syu
 
-\`\`\`
+```
 
 Depois, instala os pacotes essenciais pra AMD:
 
-\`\`\`bash
+```bash
 
 #Pacote meta-gaming que identifica seu hardware e instala o que for necessário
 sudo pacman -S cachyos-gaming-meta
@@ -63,23 +63,23 @@ sudo pacman -S gamemode lib32-gamemode
 
 sudo pacman -S mangohud lib32-mangohud
 
-\`\`\`
+```
 
-O \`lib32-\*\` é necessário pra jogos 32-bit e alguns títulos via Proton. Não economiza aqui.
+O \`lib32-*\` é necessário pra jogos 32-bit e alguns títulos via Proton. Não economiza aqui.
 
 Quer conferir qual versão do Mesa está rodando?
 
-\`\`\`bash
+```bash
 
 pacman -Q mesa
 
-\`\`\`
+```
 
-\*\*\*
+***
 
 ## 2. Desbloqueando a GPU: O Parâmetro do GRUB
 
-Aqui começa a parte boa. Por padrão, o kernel Linux restringe algumas funcionalidades do driver \`amdgpu\` - incluindo o controle total de clocks e voltagens. O \`amdgpu.ppfeaturemask=0xffffffff\` desbloqueia \*\*todas\*\* essas funcionalidades.
+Aqui começa a parte boa. Por padrão, o kernel Linux restringe algumas funcionalidades do driver \`amdgpu\` - incluindo o controle total de clocks e voltagens. O \`amdgpu.ppfeaturemask=0xffffffff\` desbloqueia **todas** essas funcionalidades.
 
 Sem isso, o CoreCtrl (que vamos instalar logo mais) não consegue controlar os clocks da GPU corretamente em GPUs RX modernas.
 
@@ -87,35 +87,35 @@ Sem isso, o CoreCtrl (que vamos instalar logo mais) não consegue controlar os c
 
 Abre o arquivo de configuração:
 
-\`\`\`bash
+```bash
 
 sudo nano /etc/default/grub
 
-\`\`\`
+```
 
-Procura a linha \`GRUB_CMDLINE_LINUX_DEFAULT\` e adiciona o parâmetro \*\*dentro das aspas\*\*, junto com o que já existir:
+Procura a linha \`GRUB_CMDLINE_LINUX_DEFAULT\` e adiciona o parâmetro **dentro das aspas**, junto com o que já existir:
 
 pra mim ficou assim, só adicionei \`amdgpu.ppfeaturemask=0xffffffff\` no final:
 
-\`\`\`plain
+```plain
 
 GRUB_CMDLINE_LINUX_DEFAULT='nowatchdog nvme_load=YES splash loglevel=3 amdgpu.ppfeaturemask=0xffffffff'
 
-\`\`\`
+```
 
-> ⚠️ Não apaga os outros parâmetros que já estavam lá! Só \*\*adiciona\*\* o \`amdgpu.ppfeaturemask=0xffffffff\` no final.
+> ⚠️ Não apaga os outros parâmetros que já estavam lá! Só **adiciona** o \`amdgpu.ppfeaturemask=0xffffffff\` no final.
 
 Salva o arquivo (\`Ctrl+O\`, depois \`Enter\`, depois \`Ctrl+X\`) e aplica a mudança:
 
-\`\`\`bash
+```bash
 
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-\`\`\`
+```
 
-\*\*Reinicia o PC.\*\* Sem reiniciar, não adianta.
+**Reinicia o PC.** Sem reiniciar, não adianta.
 
-\*\*\*
+***
 
 ## 3. CoreCtrl: O Painel de Controle da Sua GPU
 
@@ -123,11 +123,11 @@ O CoreCtrl é uma ferramenta gráfica que permite controlar clocks, voltagens e 
 
 ### Instalação
 
-\`\`\`bash
+```bash
 
 sudo pacman -Ss corectrl
 
-\`\`\`
+```
 
 > Se não encontrar, verifique se os repositórios estão atualizados (\`sudo pacman -Sy\`) ou procure nos repos do AUR com \`yay -S corectrl\`.
 
@@ -135,41 +135,41 @@ sudo pacman -Ss corectrl
 
 Depois de abrir o CoreCtrl:
 
-1. \*\*Cria um novo perfil\*\* chamado \`Gaming\`
-2. Na aba \*\*GPU\*\*, muda o modo para \*\*Avançado\*\* - isso libera os controles de clock e voltagem
+1. **Cria um novo perfil** chamado \`Gaming\`
+2. Na aba **GPU**, muda o modo para **Avançado** - isso libera os controles de clock e voltagem
 
-> 🚨 \*\*Aviso sério:\*\* Modo Avançado te dá acesso a configurações que podem danificar a GPU se você sair mexendo em tudo sem saber o que está fazendo. Foca apenas no que o guia indica.
+> 🚨 **Aviso sério:** Modo Avançado te dá acesso a configurações que podem danificar a GPU se você sair mexendo em tudo sem saber o que está fazendo. Foca apenas no que o guia indica.
 
 ### Ajustando a GPU ( RX 6600 )
 
 A minha GPU é a RX6600, então eu vou fazer as seguintes alterações nela:
 
-\*\*Clock mínimo da GPU → 1900 MHz\*\*
+**Clock mínimo da GPU → 1900 MHz**
 
-\*\*Clock máximo da GPU → 2500 MHz\*\*
+**Clock máximo da GPU → 2500 MHz**
 
-Por padrão, a GPU "dorme" em clocks baixíssimos (tipo 500 MHz) quando percebe que o jogo não está exigindo 100% do tempo - o que acontece constantemente em jogos com hitches, carregamentos ou momentos menos intensos. O problema é que a transição de 500 MHz → 2750 MHz leva tempo, causando \*\*stutters\*\* perceptíveis.
+Por padrão, a GPU "dorme" em clocks baixíssimos (tipo 500 MHz) quando percebe que o jogo não está exigindo 100% do tempo - o que acontece constantemente em jogos com hitches, carregamentos ou momentos menos intensos. O problema é que a transição de 500 MHz → 2750 MHz leva tempo, causando **stutters** perceptíveis.
 
 Fixar o mínimo em 1900 MHz garante que a GPU nunca cai pra clocks baixos demais, eliminando esses solavancos sem aumentar significativamente o consumo médio.
 
-3. Na aba \*\*CPU\*\*, verifica se o \*\*governador de frequência\*\* está em \*\*Performance\*\*
-4. \*\*Ativa o perfil Gaming\*\*
+3. Na aba **CPU**, verifica se o **governador de frequência** está em **Performance**
+4. **Ativa o perfil Gaming**
 
 ### Verificando se Funcionou
 
 Depois de aplicar, testa com:
 
-\`\`\`bash
+```bash
 
 watch -n 0.5 cat /sys/class/drm/card0/device/pp_dpm_sclk
 
-\`\`\`
+```
 
 _(Se não funcionar, tenta com \`card1\`)_
 
-A saída vai mostrar os estados de clock disponíveis. O \`\*\` indica o estado atual. Se o asterisco aparecer em \`2100\` ou \`2750\` - e \*\*não\*\* ficar preso em \`500\` - então o clock mínimo está funcionando corretamente. 
+A saída vai mostrar os estados de clock disponíveis. O \`*\` indica o estado atual. Se o asterisco aparecer em \`2100\` ou \`2750\` - e **não** ficar preso em \`500\` - então o clock mínimo está funcionando corretamente. 
 
-\*\*\*
+***
 
 ## 4. MangoHud: Seu Overlay de Estatísticas
 
@@ -179,15 +179,15 @@ O MangoHud é um overlay que aparece no canto da tela durante o jogo mostrando F
 
 Edita o arquivo de config:
 
-\`\`\`bash
+```bash
 
 nano \~/.config/MangoHud/MangoHud.conf
 
-\`\`\`
+```
 
 Apaga o que tiver e cola isso:
 
-\`\`\`ini
+```ini
 
 # ╔══════════════════════════════════════╗
 
@@ -265,13 +265,13 @@ toggle_hud=Shift_R+F12
 
 toggle_logging=Shift_L+F2
 
-\`\`\`
+```
 
 ### Testando
 
 Antes de abrir qualquer jogo, testa se o overlay aparece:
 
-\`\`\`bash
+```bash
 
 # Teste com OpenGL
 
@@ -281,31 +281,31 @@ mangohud glxgears
 
 mangohud vkcube
 
-\`\`\`
+```
 
 Se aparecer o overlay no canto superior esquerdo com as estatísticas, está funcionando.
 
-\*\*\*
+***
 
 ## 5. Opções de Inicialização na Steam
 
-Com tudo configurado, vai nas \*\*propriedades\*\* do jogo na Steam → \*\*Opções de Inicialização\*\* e coloca:
+Com tudo configurado, vai nas **propriedades** do jogo na Steam → **Opções de Inicialização** e coloca:
 
-\`\`\`plain
+```plain
 
 gamemoderun mangohud %command%
 
 # gamemoderun RADV_PERFTEST=sam RADV_DEBUG=syncshaders mangohud %command%
 
-\`\`\`
+```
 
 ### O Que Cada Coisa Faz
 
-- \*\*\`gamemoderun\`\*\* - Ativa o GameMode enquanto o jogo está rodando. O GameMode é um daemon do Feral Interactive que faz uma série de otimizações automáticas no sistema: muda o governador de CPU pra performance, reduz processos em background, aplica otimizações de scheduler, e pode interagir com jogos compatíveis via API. Basicamente, diz pro Linux: "estou jogando, prioriza isso".
-- \*\*\`mangohud\`\*\* - Injeta o overlay do MangoHud no jogo para mostrar as estatísticas configuradas.
-- \*\*\`%command%\`\*\* - É o placeholder do Steam pro executável do jogo. Tudo que vem antes dele são variáveis de ambiente e wrappers que serão aplicados.
+- **\`gamemoderun\`** - Ativa o GameMode enquanto o jogo está rodando. O GameMode é um daemon do Feral Interactive que faz uma série de otimizações automáticas no sistema: muda o governador de CPU pra performance, reduz processos em background, aplica otimizações de scheduler, e pode interagir com jogos compatíveis via API. Basicamente, diz pro Linux: "estou jogando, prioriza isso".
+- **\`mangohud\`** - Injeta o overlay do MangoHud no jogo para mostrar as estatísticas configuradas.
+- **\`%command%\`** - É o placeholder do Steam pro executável do jogo. Tudo que vem antes dele são variáveis de ambiente e wrappers que serão aplicados.
 
-\*\*\*
+***
 
 ## Resumo Rápido
 
@@ -323,18 +323,18 @@ gamemoderun mangohud %command%
 
 | GameMode | Otimizações automáticas do sistema durante o jogo |
 
-\*\*\*
+***
 
 ## Dúvidas? Problemas?
 
 Se o CoreCtrl não estiver aplicando os clocks, confirma que:
 
-1. O \`amdgpu.ppfeaturemask=0xffffffff\` foi adicionado \*\*e\*\* o \`grub-mkconfig\` foi rodado
+1. O \`amdgpu.ppfeaturemask=0xffffffff\` foi adicionado **e** o \`grub-mkconfig\` foi rodado
 2. O PC foi reiniciado depois
-3. O perfil Gaming está \*\*ativo\*\* no CoreCtrl
+3. O perfil Gaming está **ativo** no CoreCtrl
 
-\*\*\*
+***
 
 Bons jogos! 🎮
 
-\*\*\*
+***
