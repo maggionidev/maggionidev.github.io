@@ -124,7 +124,7 @@ collections:
       - { label: "TOC aberto", name: "TocOpen", widget: "boolean", default: false }
       - { label: "Ocultar da lista inicial", name: "hiddenInHomeList", widget: "boolean", default: false }
       - { label: "Rascunho", name: "draft", widget: "boolean", default: true }
-      - { label: "Conteúdo", name: "body", widget: "markdown" }
+      - { label: "Conteúdo", name: "body", widget: "markdown", mode: "raw" }
 
   - name: posts_pt_linux
     label: "🇧🇷 Posts Linux (PT-BR)"
