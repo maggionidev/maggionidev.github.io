@@ -1,0 +1,35 @@
+{{- $scratch := newScratch }}
+
+{{- /* Data de publicação (sempre exibida) */ -}}
+{{- if not .Date.IsZero -}}
+  {{- $pubDate := .Date | time.Format (default ":date_long" site.Params.DateFormat) -}}
+  {{- $scratch.Add "meta" (slice (printf "<span title='%s'>🌐 %s</span>" (.Date) $pubDate)) }}
+{{- end }}
+
+{{- /* Data de última modificação (apenas se existir e for diferente da publicação) */ -}}
+{{- if and .Lastmod (ne .Lastmod .Date) -}}
+  {{- $lastmodDate := .Lastmod | time.Format (default ":date_long" site.Params.DateFormat) -}}
+  {{- $scratch.Add "meta" (slice (printf "<span title='%s (modificado)'>✏️  %s</span>" (.Lastmod) $lastmodDate)) }}
+{{- end }}
+
+{{- /* Tempo de leitura */ -}}
+{{- if (.Param "ShowReadingTime") -}}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)))) }}
+{{- end }}
+
+{{- /* Contagem de palavras */ -}}
+{{- if (.Param "ShowWordCount") -}}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "words" .WordCount | default (printf "%d words" .WordCount)))) }}
+{{- end }}
+
+{{- /* Autor */ -}}
+{{- if not (.Param "hideAuthor") -}}
+{{- with (partial "author.html" .) }}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" .)) }}
+{{- end }}
+{{- end }}
+
+{{- /* Saída final */ -}}
+{{- with ($scratch.Get "meta") }}
+{{- delimit . "&nbsp;·&nbsp;" | safeHTML -}}
+{{- end -}}
