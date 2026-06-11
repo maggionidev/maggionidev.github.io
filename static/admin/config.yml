@@ -20,8 +20,47 @@ collections:
       - { label: "Slug", name: "slug", widget: "string", required: false }
       - { label: "Descrição (SEO)", name: "description", widget: "string", required: false }
       - { label: "Resumo", name: "summary", widget: "string", required: false }
-      - { label: "Tags", name: "tags", widget: "list", required: false }
-      - { label: "Categorias", name: "categories", widget: "list", required: false }
+      
+      # Tags com opções pré-definidas (múltipla escolha)
+      - label: "Tags"
+        name: "tags"
+        widget: "select"
+        multiple: true
+        options:
+          - "JavaScript"
+          - "TypeScript"
+          - "Python"
+          - "React"
+          - "Vue.js"
+          - "Node.js"
+          - "HTML/CSS"
+          - "PHP"
+          - "Ruby"
+          - "Go"
+          - "Rust"
+          - "Banco de Dados"
+          - "API"
+          - "Tutorial"
+          - "Dicas"
+        required: false
+      
+      # Categorias com opções pré-definidas (múltipla escolha)
+      - label: "Categorias"
+        name: "categories"
+        widget: "select"
+        multiple: true
+        options:
+          - "Desenvolvimento Web"
+          - "Backend"
+          - "Frontend"
+          - "DevOps"
+          - "Mobile"
+          - "Game Dev"
+          - "Ferramentas"
+          - "Carreira"
+          - "Boas Práticas"
+        required: false
+      
       - { label: "Keywords", name: "keywords", widget: "list", required: false }
       - { label: "Autor", name: "author", widget: "string", default: "Gabriel Maggioni" }
       - { label: "Data", name: "date", widget: "datetime" }
