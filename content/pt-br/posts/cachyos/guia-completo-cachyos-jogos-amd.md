@@ -6,6 +6,9 @@ summary: Aprenda a otimizar sua GPU AMD no Arch Linux e CachyOS usando CoreCtrl,
 tags:
   - cachyos
   - games
+  - amd
+  - mangohud
+  - corectrl
 categories:
   - games
   - cachyos
@@ -21,7 +24,9 @@ draft: true
 
 ## Introdução
 
-Esse post é direcionado à usuários AMD com Arch ou CachyOS. As configurações a seguir vão ajudar seus jogos a extraírem o máximo de desempenho  de suas peças.
+Esse post é direcionado à **usuários AMD no  CachyOS**. As configurações a seguir vão ajudar seus jogos a extraírem o máximo de desempenho  de suas peças.
+
+Meu PC: Ryzen 7 5600x, RX 6600 8GB
 
 \*\*\*
 
@@ -39,13 +44,16 @@ Depois, instala os pacotes essenciais pra AMD:
 
 \`\`\`bash
 
+#Pacote meta-gaming que identifica seu hardware e instala o que for necessário
+sudo pacman -S cachyos-gaming-meta
+
 # Drivers e ferramentas da GPU
 
-sudo pacman -S mesa lib32-mesa libva-mesa-driver lib32-libva-mesa-driver mesa-utils rocm-smi-lib
+sudo pacman -S --needed mesa lib32-mesa libva-mesa-driver lib32-libva-mesa-driver mesa-utils
 
 # Suporte Vulkan (essencial pra jogos modernos e Proton)
 
-sudo pacman -S vulkan-radeon lib32-vulkan-radeon mesa lib32-mesa
+sudo pacman -S --needed vulkan-radeon lib32-vulkan-radeon mesa lib32-mesa
 
 # GameMode (otimizações automáticas durante o jogo)
 
@@ -128,7 +136,6 @@ sudo pacman -Ss corectrl
 Depois de abrir o CoreCtrl:
 
 1. \*\*Cria um novo perfil\*\* chamado \`Gaming\`
-
 2. Na aba \*\*GPU\*\*, muda o modo para \*\*Avançado\*\* - isso libera os controles de clock e voltagem
 
 > 🚨 \*\*Aviso sério:\*\* Modo Avançado te dá acesso a configurações que podem danificar a GPU se você sair mexendo em tudo sem saber o que está fazendo. Foca apenas no que o guia indica.
@@ -146,7 +153,6 @@ Por padrão, a GPU "dorme" em clocks baixíssimos (tipo 500 MHz) quando percebe 
 Fixar o mínimo em 1900 MHz garante que a GPU nunca cai pra clocks baixos demais, eliminando esses solavancos sem aumentar significativamente o consumo médio.
 
 3. Na aba \*\*CPU\*\*, verifica se o \*\*governador de frequência\*\* está em \*\*Performance\*\*
-
 4. \*\*Ativa o perfil Gaming\*\*
 
 ### Verificando se Funcionou
@@ -296,9 +302,7 @@ gamemoderun mangohud %command%
 ### O Que Cada Coisa Faz
 
 - \*\*\`gamemoderun\`\*\* - Ativa o GameMode enquanto o jogo está rodando. O GameMode é um daemon do Feral Interactive que faz uma série de otimizações automáticas no sistema: muda o governador de CPU pra performance, reduz processos em background, aplica otimizações de scheduler, e pode interagir com jogos compatíveis via API. Basicamente, diz pro Linux: "estou jogando, prioriza isso".
-
 - \*\*\`mangohud\`\*\* - Injeta o overlay do MangoHud no jogo para mostrar as estatísticas configuradas.
-
 - \*\*\`%command%\`\*\* - É o placeholder do Steam pro executável do jogo. Tudo que vem antes dele são variáveis de ambiente e wrappers que serão aplicados.
 
 \*\*\*
@@ -306,8 +310,6 @@ gamemoderun mangohud %command%
 ## Resumo Rápido
 
 | O Que | Por Que |
-
-| --- | --- |
 
 | \`mesa\` atualizado | Melhorias de desempenho e correção de bugs no driver |
 
@@ -328,9 +330,7 @@ gamemoderun mangohud %command%
 Se o CoreCtrl não estiver aplicando os clocks, confirma que:
 
 1. O \`amdgpu.ppfeaturemask=0xffffffff\` foi adicionado \*\*e\*\* o \`grub-mkconfig\` foi rodado
-
 2. O PC foi reiniciado depois
-
 3. O perfil Gaming está \*\*ativo\*\* no CoreCtrl
 
 \*\*\*
