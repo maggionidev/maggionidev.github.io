@@ -6,6 +6,8 @@ summary: ''
 tags:
   - games
   - cachyos
+  - bug
+  - peripherals
 categories:
   - cachyos
 keywords: []
