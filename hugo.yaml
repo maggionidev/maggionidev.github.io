@@ -232,7 +232,7 @@ menu:
 
     - identifier: categories
       name: 🔖 Tags
-      url: /categories/
+      url: /tags/
       weight: 30
 
     - identifier: about
