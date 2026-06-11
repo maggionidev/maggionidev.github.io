@@ -14,12 +14,12 @@ categories:
   - cachyos
 keywords: []
 author: Gabriel Maggioni
-date: 2026-06-11T11:13:00
+date: 2026-06-11T14:20:00
 lastmod: ''
 showToc: true
 TocOpen: false
 hiddenInHomeList: false
-draft: true
+draft: false
 ---
 
 ## Introdução
@@ -28,7 +28,7 @@ Esse post é direcionado à **usuários AMD no  CachyOS**. As configurações a 
 
 Meu PC: Ryzen 7 5600x, RX 6600 8GB
 
-\*\*\*
+***
 
 ## 1. Atualiza Tudo Primeiro (Sério, Não Pula Essa Etapa)
 
