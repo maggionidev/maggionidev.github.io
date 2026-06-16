@@ -5,7 +5,7 @@ defaultContentLanguage: pt-BR
 defaultContentLanguageInSubdir: true
 
 pagination:
-  pagerSize: 10
+  pagerSize: 5
 
 enableRobotsTXT: true
 buildDrafts: false
