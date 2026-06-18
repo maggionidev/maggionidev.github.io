@@ -10,7 +10,7 @@ categories:
   - cachyos
 keywords: []
 author: Gabriel Maggioni
-date: 2026-06-17T21:13
+date: 2026-06-17T21:13:00-03:00
 lastmod: ''
 showToc: true
 TocOpen: false
