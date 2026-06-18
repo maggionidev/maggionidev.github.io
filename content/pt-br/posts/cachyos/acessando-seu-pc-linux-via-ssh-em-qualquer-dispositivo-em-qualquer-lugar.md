@@ -105,7 +105,7 @@ Você deve ver algo como:
 ## 📱 Passo 3: Instalar o Tailscale no Celular
 
 1. Baixe o app Tailscale na **Google Play Store** (Android) ou **App Store** (iOS).
-2. Faça login com a **mesma conta** que você usou no CachyOS (`devmaggioni@gmail.com`).
+2. Faça login com a **mesma conta** que você usou no CachyOS (seuemail`@gmail.com`).
 3. Ative a VPN – seu celular agora faz parte da mesma rede Tailscale.
 
 Verifique se o celular aparece na lista de dispositivos do Admin Console.
