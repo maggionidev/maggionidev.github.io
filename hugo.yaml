@@ -34,16 +34,9 @@ languages:
 
     params:
       profileMode:
-        enabled: true
+        enabled: false 
         title: Gabriel Maggioni
-
         subtitle: |
-          Olá, Bem vindo ao meu blog 👋 
-
-          Aqui você encontra conteúdos sobre Programação, Linux, Blender...
-
-          e um monte outras coisas!
-
         imageUrl: /apple-touch-icon.webp
         imageWidth: 120
         imageHeight: 120
@@ -64,8 +57,22 @@ languages:
         appendFilePath: true
 
       homeInfoParams:
-        Title: "Olá! 👋"
-        Content: Bem vindo ao meu blog!
+        Title: "Olá, eu sou o Gabriel Maggioni 👋"
+        Content: |
+
+          > Desenvolvedor, curte  Linux, Blender, Unity e automação.
+
+          ---
+          
+          ### 📌 Destaques do Blog
+          
+          - **[Otimizando o CachyOS para Jogos](/pt-br/posts/cachyos/guia-amd-cachyos-gaming/)** – Performance e benchmarks.
+          
+          - **[Guia completo pacman + yay](/pt-br/posts/cachyos/guia-pacman-yay/)** - aprenda a gerenciar seus pacotes arch
+          
+          - **[Configurando SSH com Tailscale](/pt-br/posts/cachyos/cachyos-tailscale-guide/)** – Acesso remoto seguro.
+          
+          ---
 
   en:
   # DESABILITADO TEMPORARIAMENTE
@@ -80,14 +87,7 @@ languages:
       profileMode:
         enabled: false
         title: Gabriel Maggioni
-
         subtitle: |
-          Hello, Welcome to my blog 👋 
-
-          Here you can find content about Programming
-
-          But also about Unity, Blender, and games!
-
         imageUrl: /apple-touch-icon.webp
         imageWidth: 120
         imageHeight: 120
@@ -107,10 +107,7 @@ languages:
 
       homeInfoParams:
         Title: "Hi there 👋"
-        Content: |
-         For now i haven't translated anything into english... 
-
-         you can take a look at the [pt-br content](/pt-br/posts)!
+        Content: ...
 
 caches:
   images:
@@ -125,8 +122,6 @@ params:
 
   author: Gabriel Maggioni
   DateFormat: 02/01/2006
-  ShowLastMod: true
-  LastModFormat: 02/01/2006
 
   defaultTheme: auto
   disableThemeToggle: false
@@ -220,9 +215,9 @@ params:
 
 menu:
   main:
-    - identifier: posts
-      name: posts
-      url: posts/
+    - identifier: archives
+      name: 📂 archives
+      url: archives/
       weight: 10
 
     - identifier: search
