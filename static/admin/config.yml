@@ -173,8 +173,8 @@ collections:
       
       - { label: "Keywords", name: "keywords", widget: "list", required: false }
       - { label: "Autor", name: "author", widget: "string", default: "Gabriel Maggioni" }
-      - { label: "Data", name: "date", widget: "datetime" }
-      - { label: "Atualizado em", name: "lastmod", widget: "datetime", required: false }
+      - { label: "Data", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "HH:mm:ss", format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: "Atualizado em", name: "lastmod", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "HH:mm:ss", format: "YYYY-MM-DDTHH:mm:ssZ", required: false }
       - { label: "Mostrar TOC", name: "showToc", widget: "boolean", default: true }
       - { label: "TOC aberto", name: "TocOpen", widget: "boolean", default: false }
       - { label: "Ocultar da lista inicial", name: "hiddenInHomeList", widget: "boolean", default: false }
