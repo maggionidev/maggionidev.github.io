@@ -6,11 +6,14 @@ summary: ''
 tags:
   - cachyos
   - dev
+  - tailscale
+  - ssh
 categories:
-  - cachyos
+  - dev
+  - linux
 keywords: []
 author: Gabriel Maggioni
-date: 2026-06-17T21:13:00-03:00
+date: 2026-06-17T21:23:00-03:00
 lastmod: ''
 showToc: true
 TocOpen: false
@@ -98,7 +101,6 @@ Você deve ver algo como:
 ```
 
 ***
-
 
 ## 📱 Passo 3: Instalar o Tailscale no Celular
 
