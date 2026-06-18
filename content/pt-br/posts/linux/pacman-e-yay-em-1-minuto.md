@@ -7,11 +7,11 @@ tags:
   - pacman
   - yay
   - linux
-  - arch
   - cachyos
 categories:
   - linux
   - 1minute
+  - arch
 keywords: []
 author: Gabriel Maggioni
 date: 2026-05-09T22:47:00
