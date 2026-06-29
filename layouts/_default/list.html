@@ -36,54 +36,36 @@
   {{- partial "anchored_headings.html" .Content -}}
   {{- else }}{{ .Content }}{{ end }}
 </div>
+{{- end }}
 
-<div style="margin-bottom: 26px">
+{{- $pages := union .RegularPages .Sections }}
+
+{{- if .IsHome }}
+{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" true  }}
+{{- end }}
+
+{{- $paginator := .Paginate $pages }}
+
+{{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+{{- if .IsHome }}
+<div style="margin-bottom: 46px">
   {{- with site.Taxonomies.categories }}
   <ul class="terms-tags">
     {{- range .ByCount }}
     <li>
       <a href="{{ .Page.Permalink }}">
         {{ .Page.LinkTitle }}
-        <sup
-          ><strong><sup>{{ .Count }}</sup></strong></sup
-        >
+        <sup><strong><sup>{{ .Count }}</sup></strong></sup>
       </a>
     </li>
     {{- end }}
   </ul>
   {{- end }}
 </div>
-
-{{- end }}
-
-{{- $pages := union .RegularPages .Sections }}
-
-{{- if .IsHome }}
-  {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
-  {{- $pages = where $pages "Params.hiddenInHomeList" "!=" true }}
-{{- else }}
-  {{- if eq .Kind "section" }}
-    {{- $pages = where $pages "Params.hiddenInHomeList" "!=" true }}
-  {{- end }}
-{{- end }}
-
-{{- /* ===== INÍCIO DA MODIFICAÇÃO: posts com tag "pin" no topo ===== */}}
-{{- $pinned := slice }}
-{{- $regular := slice }}
-{{- range $pages }}
-  {{- if (in .Params.tags "pin") }}
-    {{- $pinned = $pinned | append . }}
-  {{- else }}
-    {{- $regular = $regular | append . }}
-  {{- end }}
-{{- end }}
-{{- $pages = $pinned | append $regular }}
-{{- /* ===== FIM DA MODIFICAÇÃO ===== */}}
-
-{{- $paginator := .Paginate $pages }}
-
-{{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
-{{- partial "home_info.html" . }}
 {{- end }}
 
 {{- $term := .Data.Term }}
@@ -103,8 +85,7 @@
   {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
   <header class="entry-header">
     <h2 class="entry-hint-parent">
-    {{- if (in .Params.tags "pin") }} 📌  {{- end }} {{- .Title }}
-
+      {{- .Title }}
       {{- if .Draft }}
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
