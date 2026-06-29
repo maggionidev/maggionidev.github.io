@@ -20,6 +20,15 @@ collections:
       - { label: "Slug", name: "slug", widget: "string", required: false }
       - { label: "Descrição (SEO)", name: "description", widget: "string", required: false }
       - { label: "Resumo", name: "summary", widget: "string", required: false }
+      - label: "Capa"
+        name: "cover"
+        widget: "object"
+        collapsed: true
+        fields:
+         - label: "URL da imagem"
+           name: "image"
+           widget: "string"
+           hint: "Cole a URL completa da imagem"
       
       # Tags com opções pré-definidas (múltipla escolha)
       - label: "Tags"
