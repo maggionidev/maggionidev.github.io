@@ -1,11 +1,8 @@
 ---
 title: "Archives"
-description: "Essa página serve como um índice de tudo oque foi publicado nesse Site. Se quiser ver a página de forma elegante, visite /posts"
-layout: archives
+description: "Todos os Posts em maggioni.dev"
 ---
 
----
-
-> Visão Resumida: [posts](/pt-br/posts)
-
----
+{{<rawhtml>}}
+voltar pra homepage => <a style="text-decoration: underline; color: cyan" href="/pt-br/">posts</a>
+{{</rawhtml>}}
