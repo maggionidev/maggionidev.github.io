@@ -183,6 +183,8 @@ params:
     iconHeight: 45
 
   socialIcons:
+    - name: whatsapp
+      url: 'https://whatsapp.com/channel/0029VbDEopc7j6g8EHMemN26'
     - name: youtube
       url: 'https://youtube.com/@maggionidev'
     - name: tiktok
