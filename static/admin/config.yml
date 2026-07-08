@@ -24,11 +24,13 @@ collections:
         name: "cover"
         widget: "object"
         collapsed: true
+        required: false
         fields:
          - label: "URL da imagem"
            name: "image"
            widget: "string"
            hint: "Cole a URL completa da imagem"
+           required: false
       
       # Tags com opções pré-definidas (múltipla escolha)
       - label: "Tags"
@@ -37,6 +39,7 @@ collections:
         multiple: true
         options:
           - "amd"
+          - "antivirus"
           - "aur"
           - "arch"
           - "backend"
