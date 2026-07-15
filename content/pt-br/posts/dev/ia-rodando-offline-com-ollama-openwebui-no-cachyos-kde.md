@@ -16,7 +16,7 @@ categories:
 keywords: []
 author: Gabriel Maggioni
 date: 2026-06-02T09:22:00
-lastmod: 2026-06-02T09:22:00
+lastmod: 2026-07-14T21:58:00-03:00
 showToc: true
 TocOpen: false
 draft: false
@@ -191,6 +191,169 @@ http://host.docker.internal:1234/v1
 6. Clique em **Save** e depois em **Verify Connection**.
 
 Se aparecer um ✅ verde, está conectado! Agora você pode voltar para a tela principal e já vai ver o modelo disponível para conversar.
+
+***
+
+### ⚠️ Resolução de Problemas: Erro de Conexão (Network Error)
+
+#### O Problema: Open WebUI não conecta ao LM Studio
+Ao tentar conectar o Open WebUI ao LM Studio, aparece o erro **Network Problem** ou **OpenAI: Network Problem**, e o container Docker não consegue acessar o servidor de modelos.
+
+#### A Causa
+O LM Studio, por padrão, escuta apenas em `127.0.0.1:1234` (localhost). Isso significa que apenas programas rodando diretamente na sua máquina física podem se comunicar com ele. 
+
+O container Docker roda em uma rede isolada do sistema operacional principal. Quando ele tenta acessar a sua máquina através de `host.docker.internal` (que aponta para a ponte de rede do Docker, como `172.17.0.1`), a requisição chega ao LM Studio com esse IP de rede interna. Como o LM Studio recusa qualquer conexão que não venha estritamente de `127.0.0.1`, a conexão falha silenciosamente ou trava.
+
+---
+
+### 🧭 A Solução: O que é o Caddy e por que usá-lo?
+
+O **Caddy** é um servidor web moderno, extremamente leve, rápido e escrito em Go. Ele é muito conhecido por sua simplicidade de configuração comparado a alternativas tradicionais como Nginx ou Apache.
+
+Neste cenário, nós o utilizamos como um **Proxy Reverso**. 
+
+#### Como o Proxy Reverso funciona aqui?
+Imagine o Caddy como um intermediário amigável:
+1. O Caddy se posiciona na porta `12345` e aceita conexões de **qualquer lugar** (incluindo do container Docker).
+2. O container do Open WebUI faz a requisição para a porta `12345`.
+3. O Caddy recebe essa chamada e a "reempacota", enviando-a localmente para `127.0.0.1:1234` (o LM Studio).
+4. Como a requisição agora vem diretamente do Caddy (que está rodando na mesma máquina), o LM Studio acha que é uma conexão local legítima e responde sem problemas.
+
+---
+
+#### Passo 1: Instalar o Caddy
+Instale o gerenciador em seu sistema Arch Linux:
+```bash
+sudo pacman -S caddy
+
+```
+
+#### Passo 2: Executar o Proxy Reverso temporariamente
+
+Para testar o funcionamento, execute o Caddy diretamente no terminal:
+
+```bash
+caddy reverse-proxy --from :12345 --to 127.0.0.1:1234
+
+```
+
+* `--from :12345`: Diz ao Caddy para escutar em todas as interfaces de rede na porta `12345`.
+* `--to 127.0.0.1:1234`: Redireciona todo o tráfego recebido diretamente para a porta local do LM Studio.
+
+#### Passo 3: Liberar a porta no firewall (Se aplicável)
+
+Se você utiliza o UFW como firewall ativo, libere a porta usada pelo Caddy:
+
+```bash
+sudo ufw allow 12345/tcp
+
+```
+
+#### Passo 4: Testar a conexão
+
+Com o Caddy rodando no terminal do Passo 2, abra outro terminal e force o container Docker a fazer um teste de comunicação direta:
+
+```bash
+docker exec -it open-webui curl http://host.docker.internal:12345/v1/models
+
+```
+
+*Se retornar uma estrutura em JSON contendo a lista dos seus modelos carregados no LM Studio, a ponte está funcionando perfeitamente.*
+
+---
+
+### 🔄 Como Manter o Caddy Rodando para Sempre (Serviço do Sistema)
+
+Executar o comando diretamente no terminal serve para testes, mas se você fechar o terminal, o Caddy para de funcionar. Para torná-lo permanente e garantir que ele inicie sozinho junto com o sistema operacional, usaremos o **Systemd** para criar um serviço em segundo plano (daemon).
+
+#### Passo 1: Criar o arquivo de configuração do serviço
+
+Crie um novo arquivo de serviço do Systemd usando o editor de texto nano:
+
+```bash
+sudo nano /etc/systemd/system/caddy-lmstudio.service
+
+```
+
+#### Passo 2: Estrutura do Arquivo de Serviço
+
+Cole o conteúdo abaixo dentro do editor.
+
+> ⚠️ **Importante**: Substitua o campo `User=gabriel` pelo seu nome de usuário correto do sistema, caso seja diferente.
+
+```ini
+[Unit]
+Description=Caddy Reverse Proxy for LM Studio
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/caddy reverse-proxy --from :12345 --to 127.0.0.1:1234
+Restart=always
+RestartSec=5s
+User=gabriel
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+**O que essas diretivas significam?**
+
+* `After=network.target`: Garante que o Caddy só tente iniciar depois que a sua rede de internet estiver totalmente ativa.
+* `Restart=always`: Se o LM Studio fechar, se a máquina oscilar ou se o Caddy falhar por qualquer motivo, o sistema tentará reiniciar o proxy automaticamente.
+* `RestartSec=5s`: Aguarda 5 segundos antes de tentar reiniciar o serviço em caso de falha, evitando sobrecarregar o processador.
+
+Salve o arquivo pressionando `Ctrl + O`, confirme com `Enter` e saia com `Ctrl + X`.
+
+#### Passo 3: Ativar e Iniciar o Serviço
+
+Agora, informe ao gerenciador de sistema (systemd) que um novo arquivo foi criado e ordene que o Caddy comece a rodar imediatamente e em todas as próximas inicializações.
+
+```bash
+# Atualiza o systemd para ler o novo arquivo de serviço
+sudo systemctl daemon-reload
+
+# Habilita o serviço para iniciar junto com o boot do sistema
+sudo systemctl enable caddy-lmstudio.service
+
+# Inicializa o serviço agora mesmo
+sudo systemctl start caddy-lmstudio.service
+
+```
+
+---
+
+### 🛠️ Comandos de Diagnóstico e Controle
+
+Durante o uso diário ou se encontrar dificuldades, utilize estes comandos para gerenciar o proxy:
+
+* **Verificar se o serviço está ativo e rodando:**
+```bash
+sudo systemctl status caddy-lmstudio.service
+
+```
+
+
+* **Parar o proxy reverso temporariamente:**
+```bash
+sudo systemctl stop caddy-lmstudio.service
+
+```
+
+
+* **Reiniciar o serviço (útil se o LM Studio for atualizado ou travar):**
+```bash
+sudo systemctl restart caddy-lmstudio.service
+
+```
+
+
+* **Visualizar logs em tempo real (essencial para encontrar erros ocultos):**
+```bash
+journalctl -u caddy-lmstudio.service -f -n 50
+
+```
 
 ***
 
