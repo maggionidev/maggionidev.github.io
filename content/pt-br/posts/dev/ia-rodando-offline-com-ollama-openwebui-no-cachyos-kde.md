@@ -148,6 +148,8 @@ O Open WebUI é uma interface web estilo ChatGPT que se conecta ao seu servidor 
 Para subir o container, rode:
 
 ```bash
+sudo systemctl enable --now docker
+
 docker run -d -p 3000:8080 \
   --add-host=host.docker.internal:host-gateway \
   -v open-webui:/app/backend/data \
