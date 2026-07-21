@@ -45,6 +45,22 @@
 {{- $pages = where $pages "Params.hiddenInHomeList" "!=" true  }}
 {{- end }}
 
+{{- /* Ordena por lastmod quando existir (e for mais recente que date), senão usa date. Mais novo primeiro. */}}
+{{- $withSortDate := slice }}
+{{- range $pages }}
+  {{- $sortDate := .Date }}
+  {{- if and (not .Lastmod.IsZero) (.Lastmod.After .Date) }}
+    {{- $sortDate = .Lastmod }}
+  {{- end }}
+  {{- $withSortDate = $withSortDate | append (dict "Page" . "SortDate" $sortDate) }}
+{{- end }}
+{{- $withSortDate = sort $withSortDate "SortDate" "desc" }}
+{{- $sortedPages := slice }}
+{{- range $withSortDate }}
+  {{- $sortedPages = $sortedPages | append .Page }}
+{{- end }}
+{{- $pages = $sortedPages }}
+
 {{- $paginator := .Paginate $pages }}
 
 {{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
