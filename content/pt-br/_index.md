@@ -1,6 +1,6 @@
 ---
 title: "Home"
-description: "Meu site"
+description: "Gabriel Maggioni Blog"
 ---
 
 ### 📌 Categorias relevantes
