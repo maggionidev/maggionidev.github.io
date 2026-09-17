@@ -5,7 +5,7 @@ defaultContentLanguage: pt-BR
 defaultContentLanguageInSubdir: true
 
 pagination:
-  pagerSize: 5
+  pagerSize: 15
 
 enableRobotsTXT: true
 buildDrafts: false
@@ -217,13 +217,9 @@ params:
 
 menu:
   main:
-    - identifier: archives
-      name: 📂 archives
-      url: archives/
-      weight: 10
 
     - identifier: search
-      name: 🔎 ...search
+      name: 🔎 Pesquisa
       url: /search/
       weight: 20
 
