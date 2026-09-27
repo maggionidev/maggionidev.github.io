@@ -49,7 +49,6 @@ Continuando a comparação com água, enquanto os volts representam a pressão, 
 
 Também é muito comum encontrarmos valores em **miliampères (mA)**.
 
-```text
 1 A = 1000 mA
 
 Portanto:
@@ -131,7 +130,7 @@ Na corrente contínua, a polaridade permanece definida e a corrente circula norm
 
 Uma bateria pode possuir, por exemplo:
 
-+ 9 V
+- 9 V
 - GND
 
 Existe portanto um terminal positivo e um terminal negativo.
@@ -195,14 +194,14 @@ DC
 Corrente alternada costuma aparecer como:
 
 AC
-~
+\~
 
 Por isso um multímetro possui modos diferentes para medir tensão AC e DC.
 
 Por exemplo:
 
 V⎓ = tensão contínua
-V~ = tensão alternada
+V\~ = tensão alternada
 
 Selecionar o modo correto é importante para obter uma medição correta.
 
@@ -531,6 +530,3 @@ E alguns exemplos:
 Entender esses conceitos básicos já facilita bastante o estudo de Arduino, ESP32, fontes de bancada, fontes ATX, baterias, sensores, motores, LEDs e praticamente qualquer projeto eletrônico.
 
 A partir daqui, conceitos como resistores, transistores, MOSFETs, capacitores, PWM e reguladores de tensão começam a fazer muito mais sentido.
-
-
-Se quiser, eu também posso adaptar o front matter exatamente para o formato que você está usando no seu Hugo/Sveltia CMS.
