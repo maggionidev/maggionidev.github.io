@@ -17,38 +17,39 @@ hiddenInHomeList: false
 draft: false
 ---
 
-Quando começamos a estudar eletrônica, alguns termos aparecem o tempo inteiro: Volt, Ampère, Watt, corrente contínua e corrente alternada.
+Quando começamos a estudar eletrônica, alguns termos aparecem o tempo inteiro: **Volt, Ampère, Watt, corrente contínua e corrente alternada**.
 
 Eles parecem complicados no começo, mas os conceitos básicos são relativamente simples.
 
-O que é Volt?
+## O que é Volt?
 
-O Volt (V) representa a tensão elétrica.
+O **Volt (V)** representa a **tensão elétrica**.
 
 Uma forma simples de imaginar isso é pensar em água dentro de um encanamento.
 
-A tensão seria equivalente à pressão da água.
+A tensão seria equivalente à **pressão da água**.
 
 Quanto maior a tensão, maior é a "força" disponível para empurrar cargas elétricas pelo circuito.
 
 Exemplos comuns:
 
-- USB: 5 V
-- ESP32: normalmente 3,3 V
-- Arduino Uno: normalmente 5 V
-- Fonte de PC: possui linhas de 3,3 V, 5 V e 12 V
-- Tomada residencial no Brasil: normalmente 127 V ou 220 V
+- USB: **5 V**
+- ESP32: normalmente **3,3 V**
+- Arduino Uno: normalmente **5 V**
+- Fonte de PC: possui linhas de **3,3 V, 5 V e 12 V**
+- Tomada residencial no Brasil: normalmente **127 V ou 220 V**
 
 É importante respeitar a tensão suportada pelo equipamento. Aplicar uma tensão muito maior do que a especificada pode destruir um componente.
 
-O que é Ampère?
+## O que é Ampère?
 
-O Ampère (A) representa a corrente elétrica.
+O **Ampère (A)** representa a **corrente elétrica**.
 
-Continuando a comparação com água, enquanto os volts representam a pressão, os ampères representam a quantidade de água passando pelo cano.
+Continuando a comparação com água, enquanto os volts representam a pressão, os ampères representam a **quantidade de água passando pelo cano**.
 
-Também é muito comum encontrarmos valores em miliampères (mA).
+Também é muito comum encontrarmos valores em **miliampères (mA)**.
 
+```text
 1 A = 1000 mA
 
 Portanto:
@@ -530,3 +531,6 @@ E alguns exemplos:
 Entender esses conceitos básicos já facilita bastante o estudo de Arduino, ESP32, fontes de bancada, fontes ATX, baterias, sensores, motores, LEDs e praticamente qualquer projeto eletrônico.
 
 A partir daqui, conceitos como resistores, transistores, MOSFETs, capacitores, PWM e reguladores de tensão começam a fazer muito mais sentido.
+
+
+Se quiser, eu também posso adaptar o front matter exatamente para o formato que você está usando no seu Hugo/Sveltia CMS.
