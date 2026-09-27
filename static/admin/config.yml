@@ -116,7 +116,6 @@ collections:
           - "apt"
           - "bash"
           - "benchmark"
-          - "c++"
           - "cuda"
           - "debian"
           - "dnf"
