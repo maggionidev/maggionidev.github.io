@@ -42,6 +42,7 @@ collections:
           - "antivirus"
           - "aur"
           - "arch"
+          - "arduíno"
           - "backend"
           - "backup"
           - "blender"
@@ -54,12 +55,15 @@ collections:
           - "cdn"
           - "cloudflare"
           - "C#"
+          - "c++"
           - "dev"
           - "devops"
           - "driver"
           - "dns"
           - "docker"
+          - "esp32"
           - "emulation"
+          - "eletrônica"
           - "fedora"
           - "filesystem"
           - "frontend"
@@ -139,6 +143,7 @@ collections:
           - "nginx"
           - "nixos"
           - "opensuse"
+          - "pcb"
           - "performance"
           - "postgresql"
           - "prometheus"
@@ -149,6 +154,7 @@ collections:
           - "rust"
           - "security"
           - "selinux"
+          - "servo motores"
           - "snap"
           - "systemd"
           - "timeshift"
@@ -181,6 +187,9 @@ collections:
           - "uncategorized"
           - "unity"
           - "windows"
+          - "eletrônica"
+          - "arduíno"
+          - "esp32"
         required: false
       
       - { label: "Keywords", name: "keywords", widget: "list", required: false }
@@ -222,7 +231,7 @@ collections:
     fields: *default_fields
 
   - name: posts_pt_eletronica
-    label: "🇧🇷 Posts CachyOS (PT-BR)"
+    label: "🇧🇷 Posts Eletrônica (PT-BR)"
     folder: content/pt-br/posts/eletronica
     create: true
     slug: "{{slug}}"
