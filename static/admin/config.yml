@@ -220,3 +220,10 @@ collections:
     create: true
     slug: "{{slug}}"
     fields: *default_fields
+
+  - name: posts_pt_eletronica
+    label: "🇧🇷 Posts CachyOS (PT-BR)"
+    folder: content/pt-br/posts/eletronica
+    create: true
+    slug: "{{slug}}"
+    fields: *default_fields
