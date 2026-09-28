@@ -42,7 +42,7 @@ collections:
           - "antivirus"
           - "aur"
           - "arch"
-          - "arduíno"
+          - "arduino"
           - "backend"
           - "backup"
           - "blender"
@@ -187,7 +187,7 @@ collections:
           - "unity"
           - "windows"
           - "eletrônica"
-          - "arduíno"
+          - "arduino"
           - "esp32"
         required: false
       
