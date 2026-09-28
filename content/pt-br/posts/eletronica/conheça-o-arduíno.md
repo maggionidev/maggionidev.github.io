@@ -1,11 +1,12 @@
 ---
-title: Conheça o ARDUÍNO
+title: Conheça o ARDUINO
 slug: arduino-who
 description: ''
 summary: ''
 cover: null
 tags:
   - arduíno
+  - arduino
 categories:
   - eletrônica
 keywords: []
