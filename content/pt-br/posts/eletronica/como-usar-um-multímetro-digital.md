@@ -24,7 +24,7 @@ Neste artigo vamos conhecer o **Hikari HM-1550**, um multímetro digital True RM
 
 > **Aviso:** algumas funções envolvem tensões perigosas. Se você ainda está aprendendo eletrônica, pratique primeiro com circuitos de baixa tensão, como 3,3 V, 5 V, 9 V ou 12 V.
 
----
+***
 
 # Conhecendo o Hikari HM-1550
 
@@ -53,7 +53,7 @@ O HM-1550 possui:
 
 Ele também possui classificação de segurança **CAT III 600 V**.
 
----
+***
 
 # As três entradas do multímetro
 
@@ -61,7 +61,7 @@ Na parte inferior do HM-1550 existem três conectores.
 
 ## COM
 
-A entrada central é a `COM`, abreviação de *Common*.
+A entrada central é a `COM`, abreviação de _Common_.
 
 A ponta preta fica praticamente sempre nela.
 
@@ -213,7 +213,7 @@ O HM-1550 também possui desligamento automático, útil caso você esqueça o m
 
 ***
 
-# V⎓ — tensão contínua
+# V⎓ - tensão contínua
 
 Essa será provavelmente uma das funções mais utilizadas em projetos de eletrônica.
 
@@ -257,7 +257,7 @@ Isso simplesmente indica que a polaridade está invertida.
 
 ***
 
-# V\~ — tensão alternada
+# V\~ - tensão alternada
 
 Serve para medir tensão AC.
 
@@ -360,7 +360,7 @@ Isso aparece bastante em Arduino e ESP32.
 
 ***
 
-# Ω — resistência
+# Ω - resistência
 
 O símbolo `Ω` representa Ohm, unidade utilizada para medir resistência elétrica.
 
@@ -495,7 +495,7 @@ Capacitores grandes podem armazenar energia mesmo depois que o equipamento foi d
 
 ***
 
-# BAT — teste de baterias
+# BAT - teste de baterias
 
 O multímetro possui uma posição dedicada para verificar algumas baterias e pilhas comuns.
 
@@ -511,7 +511,7 @@ Para outros tipos de bateria, como uma célula Li-ion de 3,7 V, normalmente é m
 
 ***
 
-# hFE — teste de transistor
+# hFE - teste de transistor
 
 O HM-1550 possui uma função para testar transistores BJT.
 
@@ -550,7 +550,7 @@ Portanto, hFE é útil para testes e comparação, mas um projeto eletrônico n�
 
 ***
 
-# µA — microampères
+# µA - microampères
 
 Um microampère corresponde a:
 
@@ -577,7 +577,7 @@ A medição é feita em **série**.
 
 ***
 
-# mA — miliampères
+# mA - miliampères
 
 Um miliampère corresponde a:
 
