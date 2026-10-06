@@ -7,8 +7,7 @@ cover: null
 tags:
   - arduíno
   - arduino
-categories:
-  - eletrônica
+categories: []
 keywords: []
 author: Gabriel Maggioni
 date: 2026-09-28T11:51:00-03:00
