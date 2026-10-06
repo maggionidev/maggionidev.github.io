@@ -6,7 +6,8 @@ summary: ''
 cover:
   image: https://assets.maggioni.dev/posts/eletronica/hikarihm1550.jpeg
 tags: []
-categories: []
+categories:
+  - eletronica
 keywords: []
 author: Gabriel Maggioni
 date: 2026-10-04T10:55:00-03:00
