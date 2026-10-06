@@ -84,7 +84,7 @@ description: "Gabriel Maggioni Blog"
   </a>
 
   <!-- LLMS -->
-  <a href="/pt-br/categories/llms/"
+  <a href="/pt-br/categories/eletronica/"
      style="
        display: inline-flex;
        align-items: center;
@@ -97,7 +97,7 @@ description: "Gabriel Maggioni Blog"
        font-weight: 600;
        text-decoration: none;
      ">
-    ✨ LLMs
+    🔧 Eletrônica
   </a>
 
 </div>
