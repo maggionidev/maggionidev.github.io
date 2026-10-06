@@ -5,7 +5,8 @@ description: ''
 summary: ''
 cover: null
 tags: []
-categories: []
+categories:
+  - eletronica
 keywords: []
 author: Gabriel Maggioni
 date: 2026-09-27T17:24:00-03:00
