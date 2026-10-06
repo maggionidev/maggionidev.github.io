@@ -5,7 +5,6 @@ description: ''
 summary: ''
 cover: null
 tags:
-  - arduíno
   - arduino
 categories:
   - eletronica
