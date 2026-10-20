@@ -1,5 +1,5 @@
 ---
-title: Btop não mostra o uso da GFU
+title: Btop não mostra o uso da GPU
 slug: btop-nao-mostra-gpu-amd
 description: Como corrigir a ausência de dados da GPU AMD Radeon no monitor de sistema btop.
 summary: Como corrigir a ausência de dados da GPU AMD Radeon no monitor de sistema btop.
