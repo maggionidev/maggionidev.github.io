@@ -80,6 +80,7 @@ Set-SmbClientConfiguration -EnableInsecureGuestLogons $true -Force
 Set-SmbClientConfiguration -RequireSecuritySignature $false -Force
 Set-SmbServerConfiguration -RequireSecuritySignature $false -Force
 
+
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers\RPC" /v RpcUseNamedPipeProtocol /t REG_DWORD /d 1 /f
 ```
 
